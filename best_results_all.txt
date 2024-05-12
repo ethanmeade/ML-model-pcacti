@@ -1,0 +1,1019 @@
+Predicting Access time (ns)
+Tech Node 14 nm
+Variance and Standard Deviation of Ground Truth: 7.835, 2.799
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 1.48, Root MSE: 1.216
+R-squared: 0.8111685534441839
+Coefficient of determination: 0.8112
+
+Best Params for SVR: OrderedDict([('C', 702644.9924446563), ('epsilon', 0.6165182564905007), ('gamma', 3.768919384846692)])
+MSE (Mean Squared Error): 7.939, Root MSE: 2.818
+R-squared: -0.013218406844186958
+Coefficient of determination: -0.01322
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 0.128, Root MSE: 0.3578
+R-squared: 0.9836574868767027
+Coefficient of determination: 0.9837
+
+
+Predicting Access time (ns)
+Tech Node 16 nm
+Variance and Standard Deviation of Ground Truth: 7.308, 2.703
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 1.35, Root MSE: 1.162
+R-squared: 0.8152881924871181
+Coefficient of determination: 0.8153
+
+Best Params for SVR: OrderedDict([('C', 702644.9924446563), ('epsilon', 0.6165182564905007), ('gamma', 3.768919384846692)])
+MSE (Mean Squared Error): 7.445, Root MSE: 2.729
+R-squared: -0.018669105897286986
+Coefficient of determination: -0.01867
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 0.093, Root MSE: 0.305
+R-squared: 0.9872752421465357
+Coefficient of determination: 0.9873
+
+
+Predicting Access time (ns)
+Tech Node 22 nm
+Variance and Standard Deviation of Ground Truth: 7.94, 2.818
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 1.277, Root MSE: 1.13
+R-squared: 0.8391310132858777
+Coefficient of determination: 0.8391
+
+Best Params for SVR: OrderedDict([('C', 702644.9924446563), ('epsilon', 0.6165182564905007), ('gamma', 3.768919384846692)])
+MSE (Mean Squared Error): 8.024, Root MSE: 2.833
+R-squared: -0.010566133126405086
+Coefficient of determination: -0.01057
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 0.1256, Root MSE: 0.3544
+R-squared: 0.9841779541671953
+Coefficient of determination: 0.9842
+
+Predicting Access time (ns)
+Tech Node 32 nm
+Variance and Standard Deviation of Ground Truth: 6.342, 2.518
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 1.024, Root MSE: 1.012
+R-squared: 0.8385878844916196
+Coefficient of determination: 0.8386
+
+Best Params for SVR: OrderedDict([('C', 702644.9924446563), ('epsilon', 0.6165182564905007), ('gamma', 3.768919384846692)])
+MSE (Mean Squared Error): 6.532, Root MSE: 2.556
+R-squared: -0.03000205600582917
+Coefficient of determination: -0.03
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 0.1698, Root MSE: 0.4121
+R-squared: 0.9732259985861476
+Coefficient of determination: 0.9732
+
+
+Predicting Access time (ns)
+Tech Node 45 nm
+Variance and Standard Deviation of Ground Truth: 6.646, 2.578
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 0.9144, Root MSE: 0.9563
+R-squared: 0.8624096667912748
+Coefficient of determination: 0.8624
+
+Best Params for SVR: OrderedDict([('C', 702644.9924446563), ('epsilon', 0.6165182564905007), ('gamma', 3.768919384846692)])
+MSE (Mean Squared Error): 6.791, Root MSE: 2.606
+R-squared: -0.021800634673689867
+Coefficient of determination: -0.0218
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 0.08132, Root MSE: 0.2852
+R-squared: 0.9877632434650382
+Coefficient of determination: 0.9878
+
+
+Predicting Access time (ns)
+Tech Node 65 nm
+Variance and Standard Deviation of Ground Truth: 7.308, 2.703
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 1.176, Root MSE: 1.084
+R-squared: 0.8390721646288128
+Coefficient of determination: 0.8391
+
+Best Params for SVR: OrderedDict([('C', 702644.9924446563), ('epsilon', 0.6165182564905007), ('gamma', 3.768919384846692)])
+MSE (Mean Squared Error): 7.389, Root MSE: 2.718
+R-squared: -0.011165402183580087
+Coefficient of determination: -0.01117
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 0.09042, Root MSE: 0.3007
+R-squared: 0.9876271060048692
+Coefficient of determination: 0.9876
+
+Predicting Access time (ns)
+Tech Node 90 nm
+Variance and Standard Deviation of Ground Truth: 7.868, 2.805
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 1.084, Root MSE: 1.041
+R-squared: 0.8621974673252639
+Coefficient of determination: 0.8622
+
+Best Params for SVR: OrderedDict([('C', 702644.9924446563), ('epsilon', 0.6165182564905007), ('gamma', 3.768919384846692)])
+MSE (Mean Squared Error): 7.913, Root MSE: 2.813
+R-squared: -0.005747136571377931
+Coefficient of determination: -0.005747
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 0.1331, Root MSE: 0.3648
+R-squared: 0.983084223150838
+Coefficient of determination: 0.9831
+
+
+Predicting Cycle time (ns)
+Tech Node 14 nm
+Variance and Standard Deviation of Ground Truth: 54.4, 7.375
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 10.33, Root MSE: 3.214
+R-squared: 0.8100643534870382
+Coefficient of determination: 0.8101
+
+Best Params for SVR: OrderedDict([('C', 683557.439874608), ('epsilon', 3.3460661174042827), ('gamma', 0.2941140375919366)])
+MSE (Mean Squared Error): 30.4, Root MSE: 5.514
+R-squared: 0.4411341270228295
+Coefficient of determination: 0.4411
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 0.9526, Root MSE: 0.976
+R-squared: 0.9824876538016811
+Coefficient of determination: 0.9825
+
+
+Predicting Cycle time (ns)
+Tech Node 16 nm
+Variance and Standard Deviation of Ground Truth: 51.33, 7.164
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 9.816, Root MSE: 3.133
+R-squared: 0.8087515814003664
+Coefficient of determination: 0.8088
+
+Best Params for SVR: OrderedDict([('C', 683557.439874608), ('epsilon', 3.3460661174042827), ('gamma', 0.2941140375919366)])
+MSE (Mean Squared Error): 27.84, Root MSE: 5.276
+R-squared: 0.45764149661827924
+Coefficient of determination: 0.4576
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 0.6837, Root MSE: 0.8268
+R-squared: 0.986679855966086
+Coefficient of determination: 0.9867
+
+
+Predicting Cycle time (ns)
+Tech Node 22 nm
+Variance and Standard Deviation of Ground Truth: 54.8, 7.403
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 8.875, Root MSE: 2.979
+R-squared: 0.8380597441169141
+Coefficient of determination: 0.8381
+
+Best Params for SVR: OrderedDict([('C', 683557.439874608), ('epsilon', 3.3460661174042827), ('gamma', 0.2941140375919366)])
+MSE (Mean Squared Error): 58.45, Root MSE: 7.645
+R-squared: -0.06654282422984736
+Coefficient of determination: -0.06654
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 0.8564, Root MSE: 0.9254
+R-squared: 0.984373891299603
+Coefficient of determination: 0.9844
+
+
+Predicting Cycle time (ns)
+Tech Node 32 nm
+Variance and Standard Deviation of Ground Truth: 44.47, 6.668
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 7.282, Root MSE: 2.699
+R-squared: 0.8362401206181449
+Coefficient of determination: 0.8362
+
+Best Params for SVR: OrderedDict([('C', 683557.439874608), ('epsilon', 3.3460661174042827), ('gamma', 0.2941140375919366)])
+MSE (Mean Squared Error): 49.35, Root MSE: 7.025
+R-squared: -0.1096572661326276
+Coefficient of determination: -0.1097
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 1.106, Root MSE: 1.052
+R-squared: 0.9751279948421353
+Coefficient of determination: 0.9751
+
+
+Predicting Cycle time (ns)
+Tech Node 45 nm
+Variance and Standard Deviation of Ground Truth: 45.95, 6.779
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 6.339, Root MSE: 2.518
+R-squared: 0.862050918390556
+Coefficient of determination: 0.8621
+
+Best Params for SVR: OrderedDict([('C', 683557.439874608), ('epsilon', 3.3460661174042827), ('gamma', 0.2941140375919366)])
+MSE (Mean Squared Error): 50.38, Root MSE: 7.098
+R-squared: -0.09654374440168967
+Coefficient of determination: -0.09654
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 0.5304, Root MSE: 0.7283
+R-squared: 0.9884558982986116
+Coefficient of determination: 0.9885
+
+
+Predicting Cycle time (ns)
+Tech Node 65 nm
+Variance and Standard Deviation of Ground Truth: 49.46, 7.033
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 8.066, Root MSE: 2.84
+R-squared: 0.8369138344993519
+Coefficient of determination: 0.8369
+
+Best Params for SVR: OrderedDict([('C', 683557.439874608), ('epsilon', 3.3460661174042827), ('gamma', 0.2941140375919366)])
+MSE (Mean Squared Error): 53.42, Root MSE: 7.309
+R-squared: -0.08009306652253789
+Coefficient of determination: -0.08009
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 0.5731, Root MSE: 0.757
+R-squared: 0.9884130160290197
+Coefficient of determination: 0.9884
+
+
+Predicting Cycle time (ns)
+Tech Node 90 nm
+Variance and Standard Deviation of Ground Truth: 52.39, 7.238
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 7.567, Root MSE: 2.751
+R-squared: 0.8555504697230204
+Coefficient of determination: 0.8556
+
+Best Params for SVR: OrderedDict([('C', 683557.439874608), ('epsilon', 3.3460661174042827), ('gamma', 0.2941140375919366)])
+MSE (Mean Squared Error): 56.15, Root MSE: 7.493
+R-squared: -0.07174408457529058
+Coefficient of determination: -0.07174
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 0.809, Root MSE: 0.8995
+R-squared: 0.9845567411507252
+Coefficient of determination: 0.9846
+
+
+Predicting Total dynamic read energy per access (nJ)
+Tech Node 14 nm
+Variance and Standard Deviation of Ground Truth: 0.2597, 0.5096
+Best Params for KNN: OrderedDict([('n_neighbors', 3)])
+MSE (Mean Squared Error): 0.0428, Root MSE: 0.2069
+R-squared: 0.8351821252192888
+Coefficient of determination: 0.8352
+
+Best Params for SVR: OrderedDict([('C', 702644.9924446563), ('epsilon', 0.6165182564905007), ('gamma', 3.768919384846692)])
+MSE (Mean Squared Error): 1.112, Root MSE: 1.055
+R-squared: -3.2830983102964924
+Coefficient of determination: -3.283
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 0.05301, Root MSE: 0.2302
+R-squared: 0.7958355983862084
+Coefficient of determination: 0.7958
+
+
+Predicting Total dynamic read energy per access (nJ)
+Tech Node 16 nm
+Variance and Standard Deviation of Ground Truth: 0.3361, 0.5798
+Best Params for KNN: OrderedDict([('n_neighbors', 3)])
+MSE (Mean Squared Error): 0.05377, Root MSE: 0.2319
+R-squared: 0.8400193769398168
+Coefficient of determination: 0.84
+
+Best Params for SVR: OrderedDict([('C', 702644.9924446563), ('epsilon', 0.6165182564905007), ('gamma', 3.768919384846692)])
+MSE (Mean Squared Error): 1.141, Root MSE: 1.068
+R-squared: -2.3931839357419746
+Coefficient of determination: -2.393
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 0.02983, Root MSE: 0.1727
+R-squared: 0.9112507954358277
+Coefficient of determination: 0.9113
+
+
+Predicting Total dynamic read energy per access (nJ)
+Tech Node 22 nm
+Variance and Standard Deviation of Ground Truth: 0.6889, 0.83
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 0.2241, Root MSE: 0.4734
+R-squared: 0.6746315361929591
+Coefficient of determination: 0.6746
+
+Best Params for SVR: OrderedDict([('C', 702644.9924446563), ('epsilon', 0.6165182564905007), ('gamma', 3.768919384846692)])
+MSE (Mean Squared Error): 1.332, Root MSE: 1.154
+R-squared: -0.9334822242499596
+Coefficient of determination: -0.9335
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 0.1015, Root MSE: 0.3185
+R-squared: 0.852706012212004
+Coefficient of determination: 0.8527
+
+
+Predicting Total dynamic read energy per access (nJ)
+Tech Node 32 nm
+Variance and Standard Deviation of Ground Truth: 1.434, 1.197
+Best Params for KNN: OrderedDict([('n_neighbors', 3)])
+MSE (Mean Squared Error): 0.4166, Root MSE: 0.6454
+R-squared: 0.709475394955038
+Coefficient of determination: 0.7095
+
+Best Params for SVR: OrderedDict([('C', 702644.9924446563), ('epsilon', 0.6165182564905007), ('gamma', 3.768919384846692)])
+MSE (Mean Squared Error): 1.882, Root MSE: 1.372
+R-squared: -0.3122747622472597
+Coefficient of determination: -0.3123
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 0.2811, Root MSE: 0.5301
+R-squared: 0.8039975285765789
+Coefficient of determination: 0.804
+
+
+Predicting Total dynamic read energy per access (nJ)
+Tech Node 45 nm
+Variance and Standard Deviation of Ground Truth: 3.129, 1.769
+Best Params for KNN: OrderedDict([('n_neighbors', 3)])
+MSE (Mean Squared Error): 0.8818, Root MSE: 0.9391
+R-squared: 0.7181573912885277
+Coefficient of determination: 0.7182
+
+Best Params for SVR: OrderedDict([('C', 702644.9924446563), ('epsilon', 0.6165182564905007), ('gamma', 3.768919384846692)])
+MSE (Mean Squared Error): 3.337, Root MSE: 1.827
+R-squared: -0.06656930124604066
+Coefficient of determination: -0.06657
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 0.6833, Root MSE: 0.8266
+R-squared: 0.7816266982486455
+Coefficient of determination: 0.7816
+
+
+Predicting Total dynamic read energy per access (nJ)
+Tech Node 65 nm
+Variance and Standard Deviation of Ground Truth: 7.388, 2.718
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 2.773, Root MSE: 1.665
+R-squared: 0.6246694887580033
+Coefficient of determination: 0.6247
+
+Best Params for SVR: OrderedDict([('C', 702644.9924446563), ('epsilon', 0.6165182564905007), ('gamma', 3.768919384846692)])
+MSE (Mean Squared Error): 7.398, Root MSE: 2.72
+R-squared: -0.0012928632352029457
+Coefficient of determination: -0.001293
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 1.765, Root MSE: 1.329
+R-squared: 0.7610963880662
+Coefficient of determination: 0.7611
+
+
+Predicting Total dynamic read energy per access (nJ)
+Tech Node 90 nm
+Variance and Standard Deviation of Ground Truth: 15.64, 3.955
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 4.767, Root MSE: 2.183
+R-squared: 0.6951544001554459
+Coefficient of determination: 0.6952
+
+Best Params for SVR: OrderedDict([('C', 702644.9924446563), ('epsilon', 0.6165182564905007), ('gamma', 3.768919384846692)])
+MSE (Mean Squared Error): 15.78, Root MSE: 3.973
+R-squared: -0.009295592066826952
+Coefficient of determination: -0.009296
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 3.607, Root MSE: 1.899
+R-squared: 0.7693821290345806
+Coefficient of determination: 0.7694
+
+=====START HERE=====
+
+Predicting Total dynamic write energy per access (nJ)
+Tech Node 14 nm
+Variance and Standard Deviation of Ground Truth: 0.2939, 0.5422
+Best Params for KNN: OrderedDict([('n_neighbors', 3)])
+MSE (Mean Squared Error): 0.0487, Root MSE: 0.2207
+R-squared: 0.834339581401964
+Coefficient of determination: 0.8343
+
+Best Params for SVR: OrderedDict([('C', 702644.9924446563), ('epsilon', 0.6165182564905007), ('gamma', 3.768919384846692)])
+MSE (Mean Squared Error): 1.153, Root MSE: 1.074
+R-squared: -2.9230608922307177
+Coefficient of determination: -2.923
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 0.06731, Root MSE: 0.2594
+R-squared: 0.771001095571815
+Coefficient of determination: 0.771
+
+
+Predicting Total dynamic write energy per access (nJ)
+Tech Node 16 nm
+Variance and Standard Deviation of Ground Truth: 0.3763, 0.6134
+Best Params for KNN: OrderedDict([('n_neighbors', 3)])
+MSE (Mean Squared Error): 0.05913, Root MSE: 0.2432
+R-squared: 0.8428517347332632
+Coefficient of determination: 0.8429
+
+Best Params for SVR: OrderedDict([('C', 702644.9924446563), ('epsilon', 0.6165182564905007), ('gamma', 3.768919384846692)])
+MSE (Mean Squared Error): 1.188, Root MSE: 1.09
+R-squared: -2.1586861529121943
+Coefficient of determination: -2.159
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 0.03801, Root MSE: 0.195
+R-squared: 0.8989872081501187
+Coefficient of determination: 0.899
+
+
+Predicting Total dynamic write energy per access (nJ)
+Tech Node 22 nm
+Variance and Standard Deviation of Ground Truth: 0.7692, 0.877
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 0.2521, Root MSE: 0.5021
+R-squared: 0.6723074297749541
+Coefficient of determination: 0.6723
+
+Best Params for SVR: OrderedDict([('C', 702644.9924446563), ('epsilon', 0.6165182564905007), ('gamma', 3.768919384846692)])
+MSE (Mean Squared Error): 1.42, Root MSE: 1.192
+R-squared: -0.845784648001429
+Coefficient of determination: -0.8458
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 0.1233, Root MSE: 0.3511
+R-squared: 0.8397393849587953
+Coefficient of determination: 0.8397
+
+
+Predicting Total dynamic write energy per access (nJ)
+Tech Node 32 nm
+Variance and Standard Deviation of Ground Truth: 1.596, 1.263
+Best Params for KNN: OrderedDict([('n_neighbors', 3)])
+MSE (Mean Squared Error): 0.4692, Root MSE: 0.685
+R-squared: 0.7059482908531756
+Coefficient of determination: 0.7059
+
+Best Params for SVR: OrderedDict([('C', 702644.9924446563), ('epsilon', 0.6165182564905007), ('gamma', 3.768919384846692)])
+MSE (Mean Squared Error): 2.055, Root MSE: 1.433
+R-squared: -0.2875716523970562
+Coefficient of determination: -0.2876
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 0.3292, Root MSE: 0.5738
+R-squared: 0.7936843712137812
+Coefficient of determination: 0.7937
+
+
+Predicting Total dynamic write energy per access (nJ)
+Tech Node 45 nm
+Variance and Standard Deviation of Ground Truth: 3.478, 1.865
+Best Params for KNN: OrderedDict([('n_neighbors', 3)])
+MSE (Mean Squared Error): 0.9739, Root MSE: 0.9869
+R-squared: 0.719998780989076
+Coefficient of determination: 0.72
+
+Best Params for SVR: OrderedDict([('C', 702644.9924446563), ('epsilon', 0.6165182564905007), ('gamma', 3.768919384846692)])
+MSE (Mean Squared Error): 3.695, Root MSE: 1.922
+R-squared: -0.0624347681233679
+Coefficient of determination: -0.06243
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 0.7963, Root MSE: 0.8924
+R-squared: 0.7710520110695294
+Coefficient of determination: 0.7711
+
+
+Predicting Total dynamic write energy per access (nJ)
+Tech Node 65 nm
+Variance and Standard Deviation of Ground Truth: 8.2, 2.864
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 3.117, Root MSE: 1.765
+R-squared: 0.6198857665453381
+Coefficient of determination: 0.6199
+
+Best Params for SVR: OrderedDict([('C', 702644.9924446563), ('epsilon', 0.6165182564905007), ('gamma', 3.768919384846692)])
+MSE (Mean Squared Error): 8.212, Root MSE: 2.866
+R-squared: -0.001436673108043296
+Coefficient of determination: -0.001437
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 2.053, Root MSE: 1.433
+R-squared: 0.7496138081849966
+Coefficient of determination: 0.7496
+
+
+Predicting Total dynamic write energy per access (nJ)
+Tech Node 90 nm
+Variance and Standard Deviation of Ground Truth: 17.36, 4.166
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 5.341, Root MSE: 2.311
+R-squared: 0.6922546072947103
+Coefficient of determination: 0.6923
+
+Best Params for SVR: OrderedDict([('C', 702644.9924446563), ('epsilon', 0.6165182564905007), ('gamma', 3.768919384846692)])
+MSE (Mean Squared Error): 17.49, Root MSE: 4.182
+R-squared: -0.007876011920680659
+Coefficient of determination: -0.007876
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 4.222, Root MSE: 2.055
+R-squared: 0.7567443252499717
+Coefficient of determination: 0.7567
+
+======END HERE=======
+
+Predicting Total leakage power of a bank (mW)
+Tech Node 14 nm
+Variance and Standard Deviation of Ground Truth: 840.1, 28.98
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 42.51, Root MSE: 6.52
+R-squared: 0.9493933816122727
+Coefficient of determination: 0.9494
+
+Best Params for SVR: OrderedDict([('C', 683557.439874608), ('epsilon', 3.3460661174042827), ('gamma', 0.2941140375919366)])
+MSE (Mean Squared Error): 3143, Root MSE: 56.06
+R-squared: -2.741455790217271
+Coefficient of determination: -2.741
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 26.12, Root MSE: 5.111
+R-squared: 0.9689040823071497
+Coefficient of determination: 0.9689
+
+
+Predicting Total leakage power of a bank (mW)
+Tech Node 16 nm
+Variance and Standard Deviation of Ground Truth: 1087, 32.98
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 74.89, Root MSE: 8.654
+R-squared: 0.9311304451172251
+Coefficient of determination: 0.9311
+
+Best Params for SVR: OrderedDict([('C', 683557.439874608), ('epsilon', 3.3460661174042827), ('gamma', 0.2941140375919366)])
+MSE (Mean Squared Error): 3005, Root MSE: 54.82
+R-squared: -1.7634282093099443
+Coefficient of determination: -1.763
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 26.18, Root MSE: 5.116
+R-squared: 0.9759279991217454
+Coefficient of determination: 0.9759
+
+
+Predicting Total leakage power of a bank (mW)
+Tech Node 22 nm
+Variance and Standard Deviation of Ground Truth: 2094, 45.76
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 366.7, Root MSE: 19.15
+R-squared: 0.8248745377770239
+Coefficient of determination: 0.8249
+
+Best Params for SVR: OrderedDict([('C', 683557.439874608), ('epsilon', 3.3460661174042827), ('gamma', 0.2941140375919366)])
+MSE (Mean Squared Error): 6593, Root MSE: 81.2
+R-squared: -2.148424793997108
+Coefficient of determination: -2.148
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 231.5, Root MSE: 15.22
+R-squared: 0.8894367586855586
+Coefficient of determination: 0.8894
+
+
+Predicting Total leakage power of a bank (mW)
+Tech Node 32 nm
+Variance and Standard Deviation of Ground Truth: 4285, 65.46
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 734.6, Root MSE: 27.1
+R-squared: 0.828565170881155
+Coefficient of determination: 0.8286
+
+Best Params for SVR: OrderedDict([('C', 683557.439874608), ('epsilon', 3.3460661174042827), ('gamma', 0.2941140375919366)])
+MSE (Mean Squared Error): 6965, Root MSE: 83.45
+R-squared: -0.6253349808623783
+Coefficient of determination: -0.6253
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 550.1, Root MSE: 23.46
+R-squared: 0.8716136055210509
+Coefficient of determination: 0.8716
+
+
+Predicting Total leakage power of a bank (mW)
+Tech Node 45 nm
+Variance and Standard Deviation of Ground Truth: 8483, 92.1
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 1570, Root MSE: 39.62
+R-squared: 0.8149596700224236
+Coefficient of determination: 0.815
+
+Best Params for SVR: OrderedDict([('C', 683557.439874608), ('epsilon', 3.3460661174042827), ('gamma', 0.2941140375919366)])
+MSE (Mean Squared Error): 9449, Root MSE: 97.21
+R-squared: -0.1139406782254444
+Coefficient of determination: -0.1139
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 1006, Root MSE: 31.71
+R-squared: 0.8814548076862851
+Coefficient of determination: 0.8815
+
+
+Predicting Total leakage power of a bank (mW)
+Tech Node 65 nm
+Variance and Standard Deviation of Ground Truth: 1.811e+04, 134.6
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 3779, Root MSE: 61.47
+R-squared: 0.7913536078854841
+Coefficient of determination: 0.7914
+
+Best Params for SVR: OrderedDict([('C', 683557.439874608), ('epsilon', 3.3460661174042827), ('gamma', 0.2941140375919366)])
+MSE (Mean Squared Error): 1.811e+04, Root MSE: 134.6
+R-squared: -0.00015397169415298784
+Coefficient of determination: -0.000154
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 2537, Root MSE: 50.36
+R-squared: 0.8599448232627571
+Coefficient of determination: 0.8599
+
+
+Predicting Total leakage power of a bank (mW)
+Tech Node 90 nm
+Variance and Standard Deviation of Ground Truth: 3.543e+04, 188.2
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 6504, Root MSE: 80.65
+R-squared: 0.8164432258268083
+Coefficient of determination: 0.8164
+
+Best Params for SVR: OrderedDict([('C', 683557.439874608), ('epsilon', 3.3460661174042827), ('gamma', 0.2941140375919366)])
+MSE (Mean Squared Error): 3.729e+04, Root MSE: 193.1
+R-squared: -0.0523399748284743
+Coefficient of determination: -0.05234
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+MSE (Mean Squared Error): 4020, Root MSE: 63.41
+R-squared: 0.8865344103897917
+Coefficient of determination: 0.8865
+
+##### NEWER #####
+
+
+Predicting Total leakage power of a bank (mW)
+Variance and Standard Deviation of Ground Truth: 1111, 33.34
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 10.88, Root MSE: 3.299
+R-squared: 0.8549996910623914
+Coefficient of determination: 0.855
+
+
+Predicting All
+Variance and Standard Deviation of Ground Truth: 3.46, 1.86
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+MSE (Mean Squared Error): 230.1, Root MSE: 15.17
+R-squared: -2951.3524462415044
+Coefficient of determination: 0.8746
+
+####### NEWER STILL #######
+
+Predicting All for 14nm Tech Node
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+[Access time (ns)]
+MSE (Mean Squared Error): 1.4795, Root MSE: 1.2164
+R-squared: 0.8112
+---
+[Cycle time (ns)]
+MSE (Mean Squared Error): 10.3320, Root MSE: 3.2143
+R-squared: 0.8101
+---
+[Total dynamic read energy per access (nJ)]
+MSE (Mean Squared Error): 0.0386, Root MSE: 0.1964
+R-squared: 0.8515
+---
+[Total dynamic write energy per access (nJ)]
+MSE (Mean Squared Error): 0.0433, Root MSE: 0.2080
+R-squared: 0.8528
+---
+[Total leakage power of a bank (mW)]
+MSE (Mean Squared Error): 42.5131, Root MSE: 6.5202
+R-squared: 0.9494
+---
+Coefficient of determination (overall): 0.855
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+[Access time (ns)]
+MSE (Mean Squared Error): 0.2045, Root MSE: 0.4522
+R-squared: 0.9739
+---
+[Cycle time (ns)]
+MSE (Mean Squared Error): 1.3936, Root MSE: 1.1805
+R-squared: 0.9744
+---
+[Total dynamic read energy per access (nJ)]
+MSE (Mean Squared Error): 0.0808, Root MSE: 0.2843
+R-squared: 0.6888
+---
+[Total dynamic write energy per access (nJ)]
+MSE (Mean Squared Error): 0.0930, Root MSE: 0.3049
+R-squared: 0.6837
+---
+[Total leakage power of a bank (mW)]
+MSE (Mean Squared Error): 210.4002, Root MSE: 14.5052
+R-squared: 0.7495
+---
+Coefficient of determination (overall): 0.8141
+
+
+Predicting All for 16nm Tech Node
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+[Access time (ns)]
+MSE (Mean Squared Error): 1.3500, Root MSE: 1.1619
+R-squared: 0.8153
+---
+[Cycle time (ns)]
+MSE (Mean Squared Error): 9.8160, Root MSE: 3.1331
+R-squared: 0.8088
+---
+[Total dynamic read energy per access (nJ)]
+MSE (Mean Squared Error): 0.0591, Root MSE: 0.2431
+R-squared: 0.8242
+---
+[Total dynamic write energy per access (nJ)]
+MSE (Mean Squared Error): 0.0658, Root MSE: 0.2566
+R-squared: 0.8250
+---
+[Total leakage power of a bank (mW)]
+MSE (Mean Squared Error): 74.8877, Root MSE: 8.6538
+R-squared: 0.9311
+---
+Coefficient of determination (overall): 0.8409
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+[Access time (ns)]
+MSE (Mean Squared Error): 0.1722, Root MSE: 0.4149
+R-squared: 0.9764
+---
+[Cycle time (ns)]
+MSE (Mean Squared Error): 1.2074, Root MSE: 1.0988
+R-squared: 0.9765
+---
+[Total dynamic read energy per access (nJ)]
+MSE (Mean Squared Error): 0.0449, Root MSE: 0.2119
+R-squared: 0.8665
+---
+[Total dynamic write energy per access (nJ)]
+MSE (Mean Squared Error): 0.0556, Root MSE: 0.2358
+R-squared: 0.8523
+---
+[Total leakage power of a bank (mW)]
+MSE (Mean Squared Error): 79.3335, Root MSE: 8.9069
+R-squared: 0.9270
+---
+Coefficient of determination (overall): 0.9197
+
+
+Predicting All for 22nm Tech Node
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+[Access time (ns)]
+MSE (Mean Squared Error): 1.2773, Root MSE: 1.1302
+R-squared: 0.8391
+---
+[Cycle time (ns)]
+MSE (Mean Squared Error): 8.8750, Root MSE: 2.9791
+R-squared: 0.8381
+---
+[Total dynamic read energy per access (nJ)]
+MSE (Mean Squared Error): 0.2241, Root MSE: 0.4734
+R-squared: 0.6746
+---
+[Total dynamic write energy per access (nJ)]
+MSE (Mean Squared Error): 0.2521, Root MSE: 0.5021
+R-squared: 0.6723
+---
+[Total leakage power of a bank (mW)]
+MSE (Mean Squared Error): 366.7299, Root MSE: 19.1502
+R-squared: 0.8249
+---
+Coefficient of determination (overall): 0.7698
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+[Access time (ns)]
+MSE (Mean Squared Error): 0.1953, Root MSE: 0.4419
+R-squared: 0.9754
+---
+[Cycle time (ns)]
+MSE (Mean Squared Error): 1.3200, Root MSE: 1.1489
+R-squared: 0.9759
+---
+[Total dynamic read energy per access (nJ)]
+MSE (Mean Squared Error): 0.1173, Root MSE: 0.3425
+R-squared: 0.8297
+---
+[Total dynamic write energy per access (nJ)]
+MSE (Mean Squared Error): 0.1355, Root MSE: 0.3681
+R-squared: 0.8239
+---
+[Total leakage power of a bank (mW)]
+MSE (Mean Squared Error): 307.6310, Root MSE: 17.5394
+R-squared: 0.8531
+---
+Coefficient of determination (overall): 0.8916
+
+
+Predicting All for 32nm Tech Node
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+[Access time (ns)]
+MSE (Mean Squared Error): 1.0236, Root MSE: 1.0117
+R-squared: 0.8386
+---
+[Cycle time (ns)]
+MSE (Mean Squared Error): 7.2822, Root MSE: 2.6986
+R-squared: 0.8362
+---
+[Total dynamic read energy per access (nJ)]
+MSE (Mean Squared Error): 0.4014, Root MSE: 0.6336
+R-squared: 0.7201
+---
+[Total dynamic write energy per access (nJ)]
+MSE (Mean Squared Error): 0.4489, Root MSE: 0.6700
+R-squared: 0.7187
+---
+[Total leakage power of a bank (mW)]
+MSE (Mean Squared Error): 734.6038, Root MSE: 27.1036
+R-squared: 0.8286
+---
+Coefficient of determination (overall): 0.7884
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+[Access time (ns)]
+MSE (Mean Squared Error): 0.2717, Root MSE: 0.5212
+R-squared: 0.9572
+---
+[Cycle time (ns)]
+MSE (Mean Squared Error): 1.8688, Root MSE: 1.3670
+R-squared: 0.9580
+---
+[Total dynamic read energy per access (nJ)]
+MSE (Mean Squared Error): 0.3302, Root MSE: 0.5747
+R-squared: 0.7697
+---
+[Total dynamic write energy per access (nJ)]
+MSE (Mean Squared Error): 0.3799, Root MSE: 0.6164
+R-squared: 0.7619
+---
+[Total leakage power of a bank (mW)]
+MSE (Mean Squared Error): 866.9796, Root MSE: 29.4445
+R-squared: 0.7977
+---
+Coefficient of determination (overall): 0.8489
+
+
+Predicting All for 45nm Tech Node
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+[Access time (ns)]
+MSE (Mean Squared Error): 0.9144, Root MSE: 0.9563
+R-squared: 0.8624
+---
+[Cycle time (ns)]
+MSE (Mean Squared Error): 6.3385, Root MSE: 2.5176
+R-squared: 0.8621
+---
+[Total dynamic read energy per access (nJ)]
+MSE (Mean Squared Error): 0.9838, Root MSE: 0.9919
+R-squared: 0.6856
+---
+[Total dynamic write energy per access (nJ)]
+MSE (Mean Squared Error): 1.0877, Root MSE: 1.0429
+R-squared: 0.6873
+---
+[Total leakage power of a bank (mW)]
+MSE (Mean Squared Error): 1569.6578, Root MSE: 39.6189
+R-squared: 0.8150
+---
+Coefficient of determination (overall): 0.7825
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+[Access time (ns)]
+MSE (Mean Squared Error): 0.2196, Root MSE: 0.4686
+R-squared: 0.9670
+---
+[Cycle time (ns)]
+MSE (Mean Squared Error): 1.4530, Root MSE: 1.2054
+R-squared: 0.9684
+---
+[Total dynamic read energy per access (nJ)]
+MSE (Mean Squared Error): 0.8084, Root MSE: 0.8991
+R-squared: 0.7416
+---
+[Total dynamic write energy per access (nJ)]
+MSE (Mean Squared Error): 0.9346, Root MSE: 0.9668
+R-squared: 0.7313
+---
+[Total leakage power of a bank (mW)]
+MSE (Mean Squared Error): 1413.4234, Root MSE: 37.5955
+R-squared: 0.8334
+---
+Coefficient of determination (overall): 0.8483
+
+
+Predicting All for 65nm Tech Node
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+[Access time (ns)]
+MSE (Mean Squared Error): 1.1760, Root MSE: 1.0844
+R-squared: 0.8391
+---
+[Cycle time (ns)]
+MSE (Mean Squared Error): 8.0659, Root MSE: 2.8401
+R-squared: 0.8369
+---
+[Total dynamic read energy per access (nJ)]
+MSE (Mean Squared Error): 2.7730, Root MSE: 1.6652
+R-squared: 0.6247
+---
+[Total dynamic write energy per access (nJ)]
+MSE (Mean Squared Error): 3.1169, Root MSE: 1.7655
+R-squared: 0.6199
+---
+[Total leakage power of a bank (mW)]
+MSE (Mean Squared Error): 3778.9278, Root MSE: 61.4730
+R-squared: 0.7914
+---
+Coefficient of determination (overall): 0.7424
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+[Access time (ns)]
+MSE (Mean Squared Error): 0.2859, Root MSE: 0.5347
+R-squared: 0.9609
+---
+[Cycle time (ns)]
+MSE (Mean Squared Error): 1.7028, Root MSE: 1.3049
+R-squared: 0.9656
+---
+[Total dynamic read energy per access (nJ)]
+MSE (Mean Squared Error): 2.0497, Root MSE: 1.4317
+R-squared: 0.7226
+---
+[Total dynamic write energy per access (nJ)]
+MSE (Mean Squared Error): 2.3426, Root MSE: 1.5306
+R-squared: 0.7143
+---
+[Total leakage power of a bank (mW)]
+MSE (Mean Squared Error): 3219.4112, Root MSE: 56.7399
+R-squared: 0.8222
+---
+Coefficient of determination (overall): 0.8371
+
+
+Predicting All for 90nm Tech Node
+Best Params for KNN: OrderedDict([('n_neighbors', 4)])
+[Access time (ns)]
+MSE (Mean Squared Error): 1.0842, Root MSE: 1.0413
+R-squared: 0.8622
+---
+[Cycle time (ns)]
+MSE (Mean Squared Error): 7.5675, Root MSE: 2.7509
+R-squared: 0.8556
+---
+[Total dynamic read energy per access (nJ)]
+MSE (Mean Squared Error): 4.7674, Root MSE: 2.1834
+R-squared: 0.6952
+---
+[Total dynamic write energy per access (nJ)]
+MSE (Mean Squared Error): 5.3411, Root MSE: 2.3111
+R-squared: 0.6923
+---
+[Total leakage power of a bank (mW)]
+MSE (Mean Squared Error): 6503.9179, Root MSE: 80.6469
+R-squared: 0.8164
+---
+Coefficient of determination (overall): 0.7843
+
+Best Params for FOREST: OrderedDict([('max_depth', 37), ('min_samples_leaf', 2), ('min_samples_split', 9), ('n_estimators', 231)])
+[Access time (ns)]
+MSE (Mean Squared Error): 0.5612, Root MSE: 0.7492
+R-squared: 0.9287
+---
+[Cycle time (ns)]
+MSE (Mean Squared Error): 3.3234, Root MSE: 1.8230
+R-squared: 0.9366
+---
+[Total dynamic read energy per access (nJ)]
+MSE (Mean Squared Error): 3.9883, Root MSE: 1.9971
+R-squared: 0.7450
+---
+[Total dynamic write energy per access (nJ)]
+MSE (Mean Squared Error): 4.6194, Root MSE: 2.1493
+R-squared: 0.7338
+---
+[Total leakage power of a bank (mW)]
+MSE (Mean Squared Error): 5420.0962, Root MSE: 73.6213
+R-squared: 0.8470
+---
+Coefficient of determination (overall): 0.8382
+

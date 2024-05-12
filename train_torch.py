@@ -6,9 +6,14 @@ from sklearn.metrics import mean_squared_error
 from typing import Union, List, Tuple
 import torch
 from torch import nn
-from torchmod import CactiDataset
-from torchmod import CactiNet
+from cactimod import CactiDataset
+from cactimod import CactiNet
 
+# Get an argument parser to help control the automation?
+import argparse
+
+parser = argparse.ArgumentParser(description='Pass special instructions for what to do; if nothing passed then just read everything from settings.cfg and go from there.')
+parser.add_argument('--num_runs', type=int)
 
 settings_file = open("settings.cfg",'r')
 while settings_file.__next__()!="Setup\n":
@@ -83,6 +88,8 @@ if __name__ == "__main__":
     print("X[0]: ", X[0], " y[0]: ", y[0])
     print("X.shape: ", X.shape, " y.shape: ", y.shape)
     X_train, X_test, y_train, y_test = split_train_test(X, y)
+
+    print(f"X_Train: {X_train[0:3]}\n\nX_Test: {X_test[0:3]}")
     # train model and predict
 
     dataset = CactiDataset(X_train, y_train)
