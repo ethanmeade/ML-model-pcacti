@@ -60,22 +60,22 @@ out_dir_sub = ""
 multi_out_str = "Multi/"
 if SAVE_MODEL:
     if config_split_method == "Random Split":
-        out_dir_sub = multi_out_str + "RandomSplit"
+        out_dir_sub = multi_out_str + "RandomSplit_All"
     elif config_split_method == "Tech Node":
         if config_split_argument2 == "0.014":
-            out_dir_sub = multi_out_str + "TNode14nm"
+            out_dir_sub = multi_out_str + "TNode14nm_All"
         elif config_split_argument2 == "0.016":
-            out_dir_sub = multi_out_str + "TNode16nm"
+            out_dir_sub = multi_out_str + "TNode16nm_All"
         elif config_split_argument2 == "0.022":
-            out_dir_sub = multi_out_str + "TNode22nm"
+            out_dir_sub = multi_out_str + "TNode22nm_All"
         elif config_split_argument2 == "0.032":
-            out_dir_sub = multi_out_str + "TNode32nm"
+            out_dir_sub = multi_out_str + "TNode32nm_All"
         elif config_split_argument2 == "0.045":
-            out_dir_sub = multi_out_str + "TNode45nm"
+            out_dir_sub = multi_out_str + "TNode45nm_All"
         elif config_split_argument2 == "0.065":
-            out_dir_sub = multi_out_str + "TNode65nm"
+            out_dir_sub = multi_out_str + "TNode65nm_All"
         elif config_split_argument2 == "0.090":
-            out_dir_sub = multi_out_str + "TNode90nm"
+            out_dir_sub = multi_out_str + "TNode90nm_All"
         else:
             raise ValueError(f"Unsupported tech node: {config_split_argument2}; check settings.cfg!")
     else:
