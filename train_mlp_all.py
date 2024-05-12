@@ -37,7 +37,7 @@ while settings_file.__next__()!="Setup\n":
     pass
 
 BATCH_SIZE = 64
-EPOCHS = 2
+EPOCHS = 300
 LEARNING_RATE = 1e-4
 SAVE_MODEL = True
 
@@ -207,6 +207,9 @@ if __name__ == "__main__":
 
     # Check metal GPU is around
     device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+    # If CUDA is available instead, jump for them:
+    if torch.cuda.is_available():
+        device = torch.device("cuda")
 
     print(f"DEVICE: {device}")
 
