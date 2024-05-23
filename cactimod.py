@@ -54,10 +54,10 @@ class CactiNet(nn.Module):
             
     #     )
 
-    def __init__(self, multi=False):
+    def __init__(self, outputs='All'):
         super(CactiNet, self).__init__()
 
-        if multi:
+        if outputs=='All':
             self.layers = nn.Sequential(
             # 11 inputs (including 1-hot encoding for Cache Level and Access Mode),
             # Let's say it learns... 33 outputs?
@@ -95,6 +95,46 @@ class CactiNet(nn.Module):
             nn.ReLU(),
 
             nn.Linear(11, 5)
+            
+            )
+        elif outputs=='Four':
+            self.layers = nn.Sequential(
+            # 11 inputs (including 1-hot encoding for Cache Level and Access Mode),
+            # Let's say it learns... 33 outputs?
+            nn.Linear(11, 22),
+            nn.ReLU(),
+            
+            # 33 in from last layer, output 66
+            nn.Linear(22, 33),
+            nn.ReLU(),
+
+            # 66 in from last layer, output 33 again
+            nn.Linear(33, 44),
+            nn.ReLU(),
+
+            # 33 in from last layer, output 5 values...
+            nn.Linear(44, 55),
+            nn.ReLU(),
+
+            nn.Linear(55, 66),
+            nn.ReLU(),
+
+            nn.Linear(66, 55),
+            nn.ReLU(),
+
+            nn.Linear(55, 44),
+            nn.ReLU(),
+
+            nn.Linear(44, 33),
+            nn.ReLU(),
+
+            nn.Linear(33, 22),
+            nn.ReLU(),
+
+            nn.Linear(22, 11),
+            nn.ReLU(),
+
+            nn.Linear(11, 4)
             
             )
         else:
