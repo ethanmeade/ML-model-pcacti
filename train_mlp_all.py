@@ -40,8 +40,8 @@ settings_file = open("settings.cfg",'r')
 while settings_file.__next__()!="Setup\n":
     pass
 
-BATCH_SIZE = 64
-EPOCHS = 300
+BATCH_SIZE = 128
+EPOCHS = 3#300
 LEARNING_RATE = 1e-4
 SAVE_MODEL = True
 
@@ -94,27 +94,29 @@ def technode_to_dir_name(technode):
 def get_out_dir_sub():
     #TODO: FIX THIS TO BEHAVE BETTER INSTEAD OF JUST A BIG ENUMERATION
     # Also take into account doing singles, as well.
+    result = ""
+    if regression_mode == "Single":
+        result += "Single/"
+    else:
+        result += multi_out_str
     if config_split_method == "Random Split":
         return multi_out_str + "RandomSplit_All"
     elif config_split_method == "Tech Node":
-        result = multi_out_str
         result += "TNode" + technode_to_dir_name(config_split_argument2)
         if not config_split_argument3 == "":
             result += "_" + technode_to_dir_name(config_split_argument3)
         # Now check for secondary tech node, and if its an "all 5" or "all (4)" deal.
         if regression_mode == 'All':
-            result += "_All"
+            result += "/All"
         elif regression_mode == 'Four':
-            result += "_First4"
+            result += "/First4"
         else:
-            result += "_Single"
+            # Band-aid fix
+            result += "/Power"
         return result
     else:
         raise ValueError(f"Unsupported train-test split method: {config_split_method}; check settings.cfg!")
         return ""
-
-if SAVE_MODEL:
-    out_dir_sub = get_out_dir_sub()
 
 def input_transforms(name:str, value:str) -> Union[float, List[float]]:
     if name == "technology_node":
@@ -194,6 +196,10 @@ def compute_multioutput_loss_four(y_predict, y_target, loss_func):
     write_loss = loss_func(y_predict[:, 3], y_target[:,3])
     # Just sum up the MSE of all the individual losses...
     return (acc_loss + cyc_loss + read_loss + write_loss, acc_loss, cyc_loss, read_loss, write_loss)
+
+def compute_multioutput_loss_one(y_predict, y_target, loss_func):
+    # Just sum up the MSE of all the individual losses...
+    return loss_func(y_predict, y_target.unsqueeze(1))
 
 def get_artifacts_filepath(use_case, relative_out_path, batch_size, curr_epochs, TOTAL_EPOCHS):
     """
@@ -415,6 +421,66 @@ def train_model_four(cnet, loss_stats, starting_epoch, batch_size, EPOCHS, train
                     'loss': loss_stats
                 }, get_artifacts_filepath('checkpt', out_dir_sub, batch_size, epoch, EPOCHS)
                 )
+
+def train_model_one(cnet, loss_stats, starting_epoch, batch_size, EPOCHS, train_loader, val_loader):
+    for epoch in tqdm(range(starting_epoch, EPOCHS)):
+
+            cnet.train()
+            
+            # Set current loss value
+            train_epoch_loss = 0.0
+            
+            # Iterate over the DataLoader for training data
+            # for X_train_batch, y_train_batch in tqdm(train_loader, leave=False):
+            for X_train_batch, y_train_batch in tqdm(train_loader):
+                
+                # Send the training stuff to the device in use
+                X_train_batch, y_train_batch = X_train_batch.to(device), y_train_batch.to(device)
+                optimizer.zero_grad()
+
+                y_train_pred = cnet(X_train_batch)
+
+                # train_loss = loss_function(y_train_pred, y_train_batch.unsqueeze(1))
+                train_loss_struct = compute_multioutput_loss_one(y_train_pred, y_train_batch, loss_function)
+                train_loss = train_loss_struct
+            
+                train_loss.backward()
+                optimizer.step()
+                
+                train_epoch_loss += train_loss.item()
+
+                # VALIDATION
+                with torch.no_grad():   
+                    val_epoch_loss = 0
+
+                    cnet.eval()
+                    for X_val_batch, y_val_batch in val_loader:
+                        X_val_batch, y_val_batch = X_val_batch.to(device), y_val_batch.to(device)
+
+                        y_val_pred = cnet(X_val_batch)
+                            
+                        # val_loss = loss_function(y_val_pred, y_val_batch.unsqueeze(1))
+                        # Just staring at the validation loss raws to make sure it's low like promised...
+                        # print(f"Predicted validation: \n{y_val_pred[0]}")
+                        # print(f"Actual validation val: \n{y_val_batch[0]}")
+                        val_loss_struct = compute_multioutput_loss_one(y_val_pred, y_val_batch, loss_function)
+                        val_loss = val_loss_struct
+                
+                val_epoch_loss += val_loss.item()
+            
+            loss_stats['total']['train'].append(train_epoch_loss/len(train_loader))
+            loss_stats['total']['val'].append(val_epoch_loss/len(val_loader))
+
+            print(f'Epoch {epoch+0:03}: | Train Loss: {train_epoch_loss/len(train_loader):.5f} | Val Loss: {val_epoch_loss/len(val_loader):.5f}')
+
+            if SAVE_MODEL and epoch % 15 == 0 and epoch > 0:
+                torch.save({
+                    'epoch': epoch,
+                    'model_state_dict': cnet.state_dict(),
+                    'optimizer_state_dict': optimizer.state_dict(),
+                    'loss': loss_stats
+                }, get_artifacts_filepath('checkpt', out_dir_sub, batch_size, epoch, EPOCHS)
+                )
             
 def generate_graphs_all(loss_stats, out_dir_sub, BATCH_SIZE, EPOCHS):
         train_val_loss_df = pd.DataFrame.from_dict(loss_stats['total']).reset_index().melt(id_vars=['index']).rename(columns={"index":"epochs"})
@@ -477,9 +543,17 @@ def generate_graphs_four(loss_stats, out_dir_sub, BATCH_SIZE, EPOCHS):
         sns.lineplot(data=train_val_loss_write_df, x = "epochs", y="value", hue="variable").set_title('Train-Val Write-Loss/Epoch')
         plt.savefig(get_artifacts_filepath('graph', out_dir_sub, BATCH_SIZE, '', EPOCHS) + '_trainvalWriteLoss.png')
 
+def generate_graphs_one(loss_stats, out_dir_sub, BATCH_SIZE, EPOCHS):
+        train_val_loss_df = pd.DataFrame.from_dict(loss_stats['total']).reset_index().melt(id_vars=['index']).rename(columns={"index":"epochs"})
+        plt.figure(figsize=(15,8))
+        sns.lineplot(data=train_val_loss_df, x = "epochs", y="value", hue="variable").set_title('Train-Val Loss/Epoch')
+        plt.savefig(get_artifacts_filepath('graph', out_dir_sub, BATCH_SIZE, '', EPOCHS) + '_trainvalLoss.png')
+
 if __name__ == "__main__":
     argum = parse_arguments()
     regression_mode = argum.mode
+    if SAVE_MODEL:
+        out_dir_sub = get_out_dir_sub()
     # preprocess data
     frames = get_dataframes()
     X, Y = transform_frames(frames)
@@ -487,6 +561,8 @@ if __name__ == "__main__":
     if regression_mode == "Four":
         # Include all EXCEPT for power leakage. Can calculate that on it's own.
         y = Y[:,0:-1]
+    elif regression_mode == "Single":
+        y = Y[:,config_output_idx]
     print("X[0]: ", X[0], " y[0]: ", y[0])
     print("X.shape: ", X.shape, " y.shape: ", y.shape)
 
@@ -495,7 +571,7 @@ if __name__ == "__main__":
     if argum.instance == '1':
         t_node_list = ["0.014", "0.016", "0.022", "0.032", "0.045", "0.065", "0.090"]
     else:
-        t_node_list = ["0.016", "0.032", "0.065"]
+        t_node_list = ["0.016"]
     for param2 in tqdm(t_node_list):
     # for param2 in tqdm(["0.045", "0.065", "0.090"]):
     # for param2 in tqdm(["0.045", "0.065"]):
@@ -582,6 +658,8 @@ if __name__ == "__main__":
                 'read': {'train': [], 'val': []},
                 'write': {'train': [], 'val': []}
             }
+        elif regression_mode == "Single":
+            loss_stats = {'total': {'train': [], 'val': []}}
 
         if argum.infile:
             checkpoint, starting_epoch, loss_stats = load_model_checkpoint(argum.infile, device, cnet, optimizer)
@@ -592,9 +670,12 @@ if __name__ == "__main__":
             # for epoch in tqdm(range(starting_epoch, EPOCHS), leave=False):
             if regression_mode == "All":
                 train_model_all(cnet, loss_stats, starting_epoch, BATCH_SIZE, EPOCHS, train_loader, val_loader)
-            else:
+            elif regression_mode == "Four":
                 # Do four grade
                 train_model_four(cnet, loss_stats, starting_epoch, BATCH_SIZE, EPOCHS, train_loader, val_loader)
+            else:
+                # Do ONE
+                train_model_one(cnet, loss_stats, starting_epoch, BATCH_SIZE, EPOCHS, train_loader, val_loader)
 
 
             # Training is complete.
@@ -603,9 +684,10 @@ if __name__ == "__main__":
             if SAVE_MODEL and argum.save_charts:
                 if regression_mode == "All":
                     generate_graphs_all(loss_stats, out_dir_sub, BATCH_SIZE, EPOCHS)
-                else:
+                elif regression_mode == "Four":
                     generate_graphs_four(loss_stats, out_dir_sub, BATCH_SIZE, EPOCHS)
-
+                else:
+                    generate_graphs_one(loss_stats, out_dir_sub, BATCH_SIZE, EPOCHS)
 
         else:
             epoch = -1
@@ -632,40 +714,46 @@ if __name__ == "__main__":
         # r_square = r2_score(y_test, y_pred_list)
         # print("Mean Squared Error :",mse)
         # print("R^2 :",r_square)
-
-        mse_acc = mean_squared_error(y_test[:,0], y_pred_list[:,0])
-        print(f"Mean Squared Error for Access Time (ns): {mse_acc}")
-        mse_cyc = mean_squared_error(y_test[:,1], y_pred_list[:,1])
-        print(f"Mean Squared Error for Cycle Time (ns): {mse_cyc}")
-        mse_read = mean_squared_error(y_test[:,2], y_pred_list[:,2])
-        print(f"Mean Squared Error for Dynam. Read Energy (nJ): {mse_read}")
-        mse_write = mean_squared_error(y_test[:,3], y_pred_list[:,3])
-        print(f"Mean Squared Error for Dynam. Write Energy (nJ): {mse_write}")
-        mse_total_avg = 0
-        if regression_mode == 'All':
-            mse_power = mean_squared_error(y_test[:,4], y_pred_list[:,4])
-            print(f"Mean Squared Error for Leakage Power (mW): {mse_power}")
-            mse_total_avg = (mse_acc + mse_cyc + mse_read + mse_write + mse_power)/5
-        else:
-            mse_total_avg = (mse_acc + mse_cyc + mse_read + mse_write)/4
-        print(f"Average Mean Squared Error across all outputs: {mse_total_avg}")
-
-        r2_acc = r2_score(y_test[:,0], y_pred_list[:,0])
-        print(f"R^2 Score for Access Time (ns): {r2_acc}")
-        r2_cyc = r2_score(y_test[:,1], y_pred_list[:,1])
-        print(f"R^2 Score for Cycle Time (ns): {r2_cyc}")
-        r2_read = r2_score(y_test[:,2], y_pred_list[:,2])
-        print(f"R^2 Score for Dynam. Read Energy (nJ): {r2_read}")
-        r2_write = r2_score(y_test[:,3], y_pred_list[:,3])
-        print(f"R^2 Score for Dynam. Write Energy (nJ): {r2_write}")
-        r2_total_avg = 0
-        if regression_mode == 'All':
-            r2_power = r2_score(y_test[:,4], y_pred_list[:,4])
+        if regression_mode == "Single":
+            # Another band-aid
+            mse_power = mean_squared_error(y_test, y_pred_list)
+            print(f"Mean Squared Error for Power Time (mW): {mse_power}")
+            r2_power = r2_score(y_test, y_pred_list)
             print(f"R^2 Score for Leakage Power (mW): {r2_power}")
-            r2_total_avg = (r2_acc + r2_cyc + r2_read + r2_write + r2_power)/5
         else:
-            r2_total_avg = (r2_acc + r2_cyc + r2_read + r2_write)/4
-        print(f"Average R^2 Score across all outputs: {r2_total_avg}")
+            mse_acc = mean_squared_error(y_test[:,0], y_pred_list[:,0])
+            print(f"Mean Squared Error for Access Time (ns): {mse_acc}")
+            mse_cyc = mean_squared_error(y_test[:,1], y_pred_list[:,1])
+            print(f"Mean Squared Error for Cycle Time (ns): {mse_cyc}")
+            mse_read = mean_squared_error(y_test[:,2], y_pred_list[:,2])
+            print(f"Mean Squared Error for Dynam. Read Energy (nJ): {mse_read}")
+            mse_write = mean_squared_error(y_test[:,3], y_pred_list[:,3])
+            print(f"Mean Squared Error for Dynam. Write Energy (nJ): {mse_write}")
+            mse_total_avg = 0
+            if regression_mode == 'All':
+                mse_power = mean_squared_error(y_test[:,4], y_pred_list[:,4])
+                print(f"Mean Squared Error for Leakage Power (mW): {mse_power}")
+                mse_total_avg = (mse_acc + mse_cyc + mse_read + mse_write + mse_power)/5
+            else:
+                mse_total_avg = (mse_acc + mse_cyc + mse_read + mse_write)/4
+            print(f"Average Mean Squared Error across all outputs: {mse_total_avg}")
+
+            r2_acc = r2_score(y_test[:,0], y_pred_list[:,0])
+            print(f"R^2 Score for Access Time (ns): {r2_acc}")
+            r2_cyc = r2_score(y_test[:,1], y_pred_list[:,1])
+            print(f"R^2 Score for Cycle Time (ns): {r2_cyc}")
+            r2_read = r2_score(y_test[:,2], y_pred_list[:,2])
+            print(f"R^2 Score for Dynam. Read Energy (nJ): {r2_read}")
+            r2_write = r2_score(y_test[:,3], y_pred_list[:,3])
+            print(f"R^2 Score for Dynam. Write Energy (nJ): {r2_write}")
+            r2_total_avg = 0
+            if regression_mode == 'All':
+                r2_power = r2_score(y_test[:,4], y_pred_list[:,4])
+                print(f"R^2 Score for Leakage Power (mW): {r2_power}")
+                r2_total_avg = (r2_acc + r2_cyc + r2_read + r2_write + r2_power)/5
+            else:
+                r2_total_avg = (r2_acc + r2_cyc + r2_read + r2_write)/4
+            print(f"Average R^2 Score across all outputs: {r2_total_avg}")
 
         # test_loss = compute_multioutput_loss(torch.tensor(y_pred_list), torch.tensor(y_test), loss_function)
 
@@ -673,11 +761,12 @@ if __name__ == "__main__":
 
             # if epoch > EPOCHS:
             #     EPOCHS = epoch
-
+            final_filepath = get_artifacts_filepath('end', out_dir_sub, BATCH_SIZE, '', EPOCHS)
             torch.save({
                     'epoch': EPOCHS,
                     'model_state_dict': cnet.state_dict(),
                     'optimizer_state_dict': optimizer.state_dict(),
                     'loss': loss_stats
-                }, get_artifacts_filepath('end', out_dir_sub, BATCH_SIZE, '', EPOCHS)
+                }, final_filepath
                 )
+            print(f"Saved to: {final_filepath}")
