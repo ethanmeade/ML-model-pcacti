@@ -31,6 +31,7 @@ def parse_arguments():
     parser.add_argument('-f', '--infile', type=str)
     parser.add_argument('--save_charts', action='store_true')
     parser.add_argument('-m', '--mode', default='All', choices=['All', 'Four', 'Single'])
+    parser.add_argument('--instance', default='1', choices=['1', '2'])
 
     args = parser.parse_args()
     return args
@@ -40,7 +41,7 @@ while settings_file.__next__()!="Setup\n":
     pass
 
 BATCH_SIZE = 64
-EPOCHS = 1#150
+EPOCHS = 300
 LEARNING_RATE = 1e-4
 SAVE_MODEL = True
 
@@ -489,189 +490,194 @@ if __name__ == "__main__":
     print("X[0]: ", X[0], " y[0]: ", y[0])
     print("X.shape: ", X.shape, " y.shape: ", y.shape)
 
-    # for param2 in tqdm(["0.014", "0.016", "0.032"]):
+    t_node_list = []
+
+    if argum.instance == '1':
+        t_node_list = ["0.014", "0.016", "0.022", "0.032", "0.045", "0.065", "0.090"]
+    else:
+        t_node_list = ["0.016", "0.032", "0.065"]
+    for param2 in tqdm(t_node_list):
     # for param2 in tqdm(["0.045", "0.065", "0.090"]):
     # for param2 in tqdm(["0.045", "0.065"]):
-    # TODO: FIX THIS TO BE LESS HARD CODED
-    # for param2 in tqdm(["0.032"]):
+        # TODO: FIX THIS TO BE LESS HARD CODED
+        # for param2 in tqdm(["0.032"]):
 
-    # config_split_argument2 = param2
-    out_dir_sub = get_out_dir_sub()
-    print(f"Currently operating on: {config_split_argument2} {config_split_argument3}")
+        config_split_argument2 = param2
+        out_dir_sub = get_out_dir_sub()
+        print(f"Currently operating on: {config_split_argument2} {config_split_argument3}")
 
-    X_train_val, X_test, y_train_val, y_test = split_train_test(X, y)
-    
-    # Normalize the y_train_val outputs so they aren't so crazy
-    y_mean = np.mean(y_train_val, axis=0)
-    y_std = np.std(y_train_val, axis=0)
+        X_train_val, X_test, y_train_val, y_test = split_train_test(X, y)
+        
+        # Normalize the y_train_val outputs so they aren't so crazy
+        y_mean = np.mean(y_train_val, axis=0)
+        y_std = np.std(y_train_val, axis=0)
 
-    y_train_val = normalize_outputs(y_train_val, y_mean, y_std)
+        y_train_val = normalize_outputs(y_train_val, y_mean, y_std)
 
-    #TODO: Fix the rest of this to work with multiple output s***
+        #TODO: Fix the rest of this to work with multiple output s***
 
-    # Just checks to see which tech nodes are being used in training...
-    unique_tech_node = []
-    for line in X_train_val:
-        if line[0] not in unique_tech_node:
-            unique_tech_node.append(line[0])
-    print(f"Unique Tech Nodes: {unique_tech_node}")
+        # Just checks to see which tech nodes are being used in training...
+        unique_tech_node = []
+        for line in X_train_val:
+            if line[0] not in unique_tech_node:
+                unique_tech_node.append(line[0])
+        print(f"Unique Tech Nodes: {unique_tech_node}")
 
-    X_train, X_val, y_train, y_val = split_train_val(X_train_val, y_train_val)
+        X_train, X_val, y_train, y_val = split_train_val(X_train_val, y_train_val)
 
-    # print(f"X_Train: {X_train[0:3]}\n\nX_Test: {X_test[0:3]}")
-    # train model and predict
+        # print(f"X_Train: {X_train[0:3]}\n\nX_Test: {X_test[0:3]}")
+        # train model and predict
 
-    # Check metal GPU is around
-    device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
-    # If CUDA is available instead, jump for them:
-    if torch.cuda.is_available():
-        device = torch.device("cuda")
+        # Check metal GPU is around
+        device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+        # If CUDA is available instead, jump for them:
+        if torch.cuda.is_available():
+            device = torch.device("cuda")
 
-    print(f"DEVICE: {device}")
+        print(f"DEVICE: {device}")
 
-    scaler = StandardScaler()
+        scaler = StandardScaler()
 
-    X_train = scaler.fit_transform(X_train)
-    X_val = scaler.transform(X_val)
-    X_test = scaler.transform(X_test)
+        X_train = scaler.fit_transform(X_train)
+        X_val = scaler.transform(X_val)
+        X_test = scaler.transform(X_test)
 
-    X_train, y_train = np.array(X_train, dtype=np.float32), np.array(y_train, dtype=np.float32)
-    X_val, y_val = np.array(X_val, dtype=np.float32), np.array(y_val, dtype=np.float32)
-    X_test, y_test = np.array(X_test, dtype=np.float32), np.array(y_test, dtype=np.float32)
+        X_train, y_train = np.array(X_train, dtype=np.float32), np.array(y_train, dtype=np.float32)
+        X_val, y_val = np.array(X_val, dtype=np.float32), np.array(y_val, dtype=np.float32)
+        X_test, y_test = np.array(X_test, dtype=np.float32), np.array(y_test, dtype=np.float32)
 
-    train_dataset = CactiDataset(X_train, y_train)
-    val_dataset = CactiDataset(X_val, y_val)
-    test_dataset = CactiDataset(X_test, y_test)
-    
-    train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
-    val_loader = torch.utils.data.DataLoader(dataset=val_dataset, batch_size=1)
-    test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=1)
+        train_dataset = CactiDataset(X_train, y_train)
+        val_dataset = CactiDataset(X_val, y_val)
+        test_dataset = CactiDataset(X_test, y_test)
+        
+        train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
+        val_loader = torch.utils.data.DataLoader(dataset=val_dataset, batch_size=1)
+        test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=1)
 
-    # Initialize the MLP
-    cnet = CactiNet(outputs=regression_mode)
-    cnet.to(device)
-    
-    # Define the loss function and optimizer
-    #loss_function = nn.L1Loss()
-    loss_function = nn.MSELoss()
-    optimizer = torch.optim.Adam(cnet.parameters(), lr=LEARNING_RATE)
+        # Initialize the MLP
+        cnet = CactiNet(outputs=regression_mode)
+        cnet.to(device)
+        
+        # Define the loss function and optimizer
+        #loss_function = nn.L1Loss()
+        loss_function = nn.MSELoss()
+        optimizer = torch.optim.Adam(cnet.parameters(), lr=LEARNING_RATE)
 
-    starting_epoch = 0
-    loss_stats = {}
-    if regression_mode == "All":
-        loss_stats = {
-            'total': {'train': [], 'val': []},
-            'access': {'train': [], 'val': []},
-            'cycle': {'train': [], 'val': []},
-            'read': {'train': [], 'val': []},
-            'write': {'train': [], 'val': []},
-            'power': {'train': [], 'val': []}
-        }
-    elif regression_mode == "Four":
-        loss_stats = {
-            'total': {'train': [], 'val': []},
-            'access': {'train': [], 'val': []},
-            'cycle': {'train': [], 'val': []},
-            'read': {'train': [], 'val': []},
-            'write': {'train': [], 'val': []}
-        }
-
-    if argum.infile:
-        checkpoint, starting_epoch, loss_stats = load_model_checkpoint(argum.infile, device, cnet, optimizer)
-    
-    # Do training only if not told not to OR not given any previous data to work with.
-    if not argum.only_test or not argum.infile:
-        # Run the training loop
-        # for epoch in tqdm(range(starting_epoch, EPOCHS), leave=False):
+        starting_epoch = 0
+        loss_stats = {}
         if regression_mode == "All":
-            train_model_all(cnet, loss_stats, starting_epoch, BATCH_SIZE, EPOCHS, train_loader, val_loader)
-        else:
-            # Do four grade
-            train_model_four(cnet, loss_stats, starting_epoch, BATCH_SIZE, EPOCHS, train_loader, val_loader)
+            loss_stats = {
+                'total': {'train': [], 'val': []},
+                'access': {'train': [], 'val': []},
+                'cycle': {'train': [], 'val': []},
+                'read': {'train': [], 'val': []},
+                'write': {'train': [], 'val': []},
+                'power': {'train': [], 'val': []}
+            }
+        elif regression_mode == "Four":
+            loss_stats = {
+                'total': {'train': [], 'val': []},
+                'access': {'train': [], 'val': []},
+                'cycle': {'train': [], 'val': []},
+                'read': {'train': [], 'val': []},
+                'write': {'train': [], 'val': []}
+            }
 
-
-        # Training is complete.
-        print('Training process has finished.')
-
-        if SAVE_MODEL and argum.save_charts:
+        if argum.infile:
+            checkpoint, starting_epoch, loss_stats = load_model_checkpoint(argum.infile, device, cnet, optimizer)
+        
+        # Do training only if not told not to OR not given any previous data to work with.
+        if not argum.only_test or not argum.infile:
+            # Run the training loop
+            # for epoch in tqdm(range(starting_epoch, EPOCHS), leave=False):
             if regression_mode == "All":
-                generate_graphs_all(loss_stats, out_dir_sub, BATCH_SIZE, EPOCHS)
+                train_model_all(cnet, loss_stats, starting_epoch, BATCH_SIZE, EPOCHS, train_loader, val_loader)
             else:
-                generate_graphs_four(loss_stats, out_dir_sub, BATCH_SIZE, EPOCHS)
+                # Do four grade
+                train_model_four(cnet, loss_stats, starting_epoch, BATCH_SIZE, EPOCHS, train_loader, val_loader)
 
 
-    else:
-        epoch = -1
+            # Training is complete.
+            print('Training process has finished.')
 
-    y_pred_list = []
-    with torch.no_grad():
-        cnet.eval()
-        for X_batch, _ in test_loader:
-            X_batch = X_batch.to(device)
-            y_test_pred = cnet(X_batch)
-            y_pred_list.append(y_test_pred.cpu().numpy())
-    y_pred_list = np.array([a.squeeze().tolist() for a in y_pred_list])
+            if SAVE_MODEL and argum.save_charts:
+                if regression_mode == "All":
+                    generate_graphs_all(loss_stats, out_dir_sub, BATCH_SIZE, EPOCHS)
+                else:
+                    generate_graphs_four(loss_stats, out_dir_sub, BATCH_SIZE, EPOCHS)
 
-    # Apply the reverse normalization
-    y_pred_list = unnormalize_outputs(y_pred_list, y_mean, y_std)
 
-    # Column names for pandas dataframe
-    column_names = ["Access Time (ns)", "Cycle Time (ns)", "Total dynamic read energy per access (nJ)", "Total dynamic write energy per access (nJ)", "Total leakage power of a bank (mW)"]
+        else:
+            epoch = -1
 
-    # Index can be done with range()
-    df_index = range(y_test.shape[0])
+        y_pred_list = []
+        with torch.no_grad():
+            cnet.eval()
+            for X_batch, _ in test_loader:
+                X_batch = X_batch.to(device)
+                y_test_pred = cnet(X_batch)
+                y_pred_list.append(y_test_pred.cpu().numpy())
+        y_pred_list = np.array([a.squeeze().tolist() for a in y_pred_list])
 
-    # mse = mean_squared_error(y_test, y_pred_list)
-    # r_square = r2_score(y_test, y_pred_list)
-    # print("Mean Squared Error :",mse)
-    # print("R^2 :",r_square)
+        # Apply the reverse normalization
+        y_pred_list = unnormalize_outputs(y_pred_list, y_mean, y_std)
 
-    mse_acc = mean_squared_error(y_test[:,0], y_pred_list[:,0])
-    print(f"Mean Squared Error for Access Time (ns): {mse_acc}")
-    mse_cyc = mean_squared_error(y_test[:,1], y_pred_list[:,1])
-    print(f"Mean Squared Error for Cycle Time (ns): {mse_cyc}")
-    mse_read = mean_squared_error(y_test[:,2], y_pred_list[:,2])
-    print(f"Mean Squared Error for Dynam. Read Energy (nJ): {mse_read}")
-    mse_write = mean_squared_error(y_test[:,3], y_pred_list[:,3])
-    print(f"Mean Squared Error for Dynam. Write Energy (nJ): {mse_write}")
-    mse_total_avg = 0
-    if regression_mode == 'All':
-        mse_power = mean_squared_error(y_test[:,4], y_pred_list[:,4])
-        print(f"Mean Squared Error for Leakage Power (mW): {mse_power}")
-        mse_total_avg = (mse_acc + mse_cyc + mse_read + mse_write + mse_power)/5
-    else:
-        mse_total_avg = (mse_acc + mse_cyc + mse_read + mse_write)/4
-    print(f"Average Mean Squared Error across all outputs: {mse_total_avg}")
+        # Column names for pandas dataframe
+        column_names = ["Access Time (ns)", "Cycle Time (ns)", "Total dynamic read energy per access (nJ)", "Total dynamic write energy per access (nJ)", "Total leakage power of a bank (mW)"]
 
-    r2_acc = r2_score(y_test[:,0], y_pred_list[:,0])
-    print(f"R^2 Score for Access Time (ns): {r2_acc}")
-    r2_cyc = r2_score(y_test[:,1], y_pred_list[:,1])
-    print(f"R^2 Score for Cycle Time (ns): {r2_cyc}")
-    r2_read = r2_score(y_test[:,2], y_pred_list[:,2])
-    print(f"R^2 Score for Dynam. Read Energy (nJ): {r2_read}")
-    r2_write = r2_score(y_test[:,3], y_pred_list[:,3])
-    print(f"R^2 Score for Dynam. Write Energy (nJ): {r2_write}")
-    r2_total_avg = 0
-    if regression_mode == 'All':
-        r2_power = r2_score(y_test[:,4], y_pred_list[:,4])
-        print(f"R^2 Score for Leakage Power (mW): {r2_power}")
-        r2_total_avg = (r2_acc + r2_cyc + r2_read + r2_write + r2_power)/5
-    else:
-        r2_total_avg = (r2_acc + r2_cyc + r2_read + r2_write)/4
-    print(f"Average R^2 Score across all outputs: {r2_total_avg}")
+        # Index can be done with range()
+        df_index = range(y_test.shape[0])
 
-    # test_loss = compute_multioutput_loss(torch.tensor(y_pred_list), torch.tensor(y_test), loss_function)
+        # mse = mean_squared_error(y_test, y_pred_list)
+        # r_square = r2_score(y_test, y_pred_list)
+        # print("Mean Squared Error :",mse)
+        # print("R^2 :",r_square)
 
-    if SAVE_MODEL and not argum.only_test:
+        mse_acc = mean_squared_error(y_test[:,0], y_pred_list[:,0])
+        print(f"Mean Squared Error for Access Time (ns): {mse_acc}")
+        mse_cyc = mean_squared_error(y_test[:,1], y_pred_list[:,1])
+        print(f"Mean Squared Error for Cycle Time (ns): {mse_cyc}")
+        mse_read = mean_squared_error(y_test[:,2], y_pred_list[:,2])
+        print(f"Mean Squared Error for Dynam. Read Energy (nJ): {mse_read}")
+        mse_write = mean_squared_error(y_test[:,3], y_pred_list[:,3])
+        print(f"Mean Squared Error for Dynam. Write Energy (nJ): {mse_write}")
+        mse_total_avg = 0
+        if regression_mode == 'All':
+            mse_power = mean_squared_error(y_test[:,4], y_pred_list[:,4])
+            print(f"Mean Squared Error for Leakage Power (mW): {mse_power}")
+            mse_total_avg = (mse_acc + mse_cyc + mse_read + mse_write + mse_power)/5
+        else:
+            mse_total_avg = (mse_acc + mse_cyc + mse_read + mse_write)/4
+        print(f"Average Mean Squared Error across all outputs: {mse_total_avg}")
 
-        # if epoch > EPOCHS:
-        #     EPOCHS = epoch
+        r2_acc = r2_score(y_test[:,0], y_pred_list[:,0])
+        print(f"R^2 Score for Access Time (ns): {r2_acc}")
+        r2_cyc = r2_score(y_test[:,1], y_pred_list[:,1])
+        print(f"R^2 Score for Cycle Time (ns): {r2_cyc}")
+        r2_read = r2_score(y_test[:,2], y_pred_list[:,2])
+        print(f"R^2 Score for Dynam. Read Energy (nJ): {r2_read}")
+        r2_write = r2_score(y_test[:,3], y_pred_list[:,3])
+        print(f"R^2 Score for Dynam. Write Energy (nJ): {r2_write}")
+        r2_total_avg = 0
+        if regression_mode == 'All':
+            r2_power = r2_score(y_test[:,4], y_pred_list[:,4])
+            print(f"R^2 Score for Leakage Power (mW): {r2_power}")
+            r2_total_avg = (r2_acc + r2_cyc + r2_read + r2_write + r2_power)/5
+        else:
+            r2_total_avg = (r2_acc + r2_cyc + r2_read + r2_write)/4
+        print(f"Average R^2 Score across all outputs: {r2_total_avg}")
 
-        torch.save({
-                'epoch': EPOCHS,
-                'model_state_dict': cnet.state_dict(),
-                'optimizer_state_dict': optimizer.state_dict(),
-                'loss': loss_stats
-            }, get_artifacts_filepath('end', out_dir_sub, BATCH_SIZE, '', EPOCHS)
-            )
+        # test_loss = compute_multioutput_loss(torch.tensor(y_pred_list), torch.tensor(y_test), loss_function)
 
+        if SAVE_MODEL and not argum.only_test:
+
+            # if epoch > EPOCHS:
+            #     EPOCHS = epoch
+
+            torch.save({
+                    'epoch': EPOCHS,
+                    'model_state_dict': cnet.state_dict(),
+                    'optimizer_state_dict': optimizer.state_dict(),
+                    'loss': loss_stats
+                }, get_artifacts_filepath('end', out_dir_sub, BATCH_SIZE, '', EPOCHS)
+                )
