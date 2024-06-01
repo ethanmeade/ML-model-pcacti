@@ -40,8 +40,8 @@ settings_file = open("settings.cfg",'r')
 while settings_file.__next__()!="Setup\n":
     pass
 
-BATCH_SIZE = 128
-EPOCHS = 3#300
+BATCH_SIZE = 64
+EPOCHS = 150#2
 LEARNING_RATE = 1e-4
 SAVE_MODEL = True
 
@@ -521,27 +521,27 @@ def generate_graphs_four(loss_stats, out_dir_sub, BATCH_SIZE, EPOCHS):
         sns.lineplot(data=train_val_loss_df, x = "epochs", y="value", hue="variable").set_title('Train-Val Total-Loss/Epoch')
         # plt.show()
         # TODO: Make more compact with a for loop or something of the sort
-        plt.savefig(get_artifacts_filepath('graph', out_dir_sub, BATCH_SIZE, '', EPOCHS) + '_trainvalTotalLoss.png')
+        plt.savefig(get_artifacts_filepath('graph', out_dir_sub, BATCH_SIZE, '', EPOCHS) + '_trainvalTotalLossFour.png')
 
         train_val_loss_acc_df = pd.DataFrame.from_dict(loss_stats['access']).reset_index().melt(id_vars=['index']).rename(columns={"index":"epochs"})
         plt.figure(figsize=(15,8))
         sns.lineplot(data=train_val_loss_acc_df, x = "epochs", y="value", hue="variable").set_title('Train-Val Access-Loss/Epoch')
-        plt.savefig(get_artifacts_filepath('graph', out_dir_sub, BATCH_SIZE, '', EPOCHS) + '_trainvalAccessLoss.png')
+        plt.savefig(get_artifacts_filepath('graph', out_dir_sub, BATCH_SIZE, '', EPOCHS) + '_trainvalAccessLossFour.png')
 
         train_val_loss_cyc_df = pd.DataFrame.from_dict(loss_stats['cycle']).reset_index().melt(id_vars=['index']).rename(columns={"index":"epochs"})
         plt.figure(figsize=(15,8))
         sns.lineplot(data=train_val_loss_cyc_df, x = "epochs", y="value", hue="variable").set_title('Train-Val Cycle-Loss/Epoch')
-        plt.savefig(get_artifacts_filepath('graph', out_dir_sub, BATCH_SIZE, '', EPOCHS) + '_trainvalCycleLoss.png')
+        plt.savefig(get_artifacts_filepath('graph', out_dir_sub, BATCH_SIZE, '', EPOCHS) + '_trainvalCycleLossFour.png')
 
         train_val_loss_read_df = pd.DataFrame.from_dict(loss_stats['read']).reset_index().melt(id_vars=['index']).rename(columns={"index":"epochs"})
         plt.figure(figsize=(15,8))
         sns.lineplot(data=train_val_loss_read_df, x = "epochs", y="value", hue="variable").set_title('Train-Val Read-Loss/Epoch')
-        plt.savefig(get_artifacts_filepath('graph', out_dir_sub, BATCH_SIZE, '', EPOCHS) + '_trainvalReadLoss.png')
+        plt.savefig(get_artifacts_filepath('graph', out_dir_sub, BATCH_SIZE, '', EPOCHS) + '_trainvalReadLossFour.png')
 
         train_val_loss_write_df = pd.DataFrame.from_dict(loss_stats['write']).reset_index().melt(id_vars=['index']).rename(columns={"index":"epochs"})
         plt.figure(figsize=(15,8))
         sns.lineplot(data=train_val_loss_write_df, x = "epochs", y="value", hue="variable").set_title('Train-Val Write-Loss/Epoch')
-        plt.savefig(get_artifacts_filepath('graph', out_dir_sub, BATCH_SIZE, '', EPOCHS) + '_trainvalWriteLoss.png')
+        plt.savefig(get_artifacts_filepath('graph', out_dir_sub, BATCH_SIZE, '', EPOCHS) + '_trainvalWriteLossFour.png')
 
 def generate_graphs_one(loss_stats, out_dir_sub, BATCH_SIZE, EPOCHS):
         train_val_loss_df = pd.DataFrame.from_dict(loss_stats['total']).reset_index().melt(id_vars=['index']).rename(columns={"index":"epochs"})
@@ -569,9 +569,9 @@ if __name__ == "__main__":
     t_node_list = []
 
     if argum.instance == '1':
-        t_node_list = ["0.014", "0.016", "0.022", "0.032", "0.045", "0.065", "0.090"]
+        t_node_list = [config_split_argument2]
     else:
-        t_node_list = ["0.016"]
+        t_node_list = ["0.014", "0.016", "0.022", "0.032", "0.045", "0.065", "0.090"]
     for param2 in tqdm(t_node_list):
     # for param2 in tqdm(["0.045", "0.065", "0.090"]):
     # for param2 in tqdm(["0.045", "0.065"]):
@@ -611,6 +611,8 @@ if __name__ == "__main__":
             device = torch.device("cuda")
 
         print(f"DEVICE: {device}")
+        print("X_train.shape: ", X_train.shape, " y_train.shape: ", y_train.shape)
+        print("X_val.shape: ", X_val.shape, " y_val.shape: ", y_val.shape)
 
         scaler = StandardScaler()
 
@@ -681,13 +683,13 @@ if __name__ == "__main__":
             # Training is complete.
             print('Training process has finished.')
 
-            if SAVE_MODEL and argum.save_charts:
-                if regression_mode == "All":
-                    generate_graphs_all(loss_stats, out_dir_sub, BATCH_SIZE, EPOCHS)
-                elif regression_mode == "Four":
-                    generate_graphs_four(loss_stats, out_dir_sub, BATCH_SIZE, EPOCHS)
-                else:
-                    generate_graphs_one(loss_stats, out_dir_sub, BATCH_SIZE, EPOCHS)
+        if SAVE_MODEL and argum.save_charts:
+            if regression_mode == "All":
+                generate_graphs_all(loss_stats, out_dir_sub, BATCH_SIZE, EPOCHS)
+            elif regression_mode == "Four":
+                generate_graphs_four(loss_stats, out_dir_sub, BATCH_SIZE, EPOCHS)
+            else:
+                generate_graphs_one(loss_stats, out_dir_sub, BATCH_SIZE, EPOCHS)
 
         else:
             epoch = -1
@@ -756,6 +758,10 @@ if __name__ == "__main__":
             print(f"Average R^2 Score across all outputs: {r2_total_avg}")
 
         # test_loss = compute_multioutput_loss(torch.tensor(y_pred_list), torch.tensor(y_test), loss_function)
+
+        # if SAVE_MODEL and argum.only_test:
+        #     with open('test_out_all1.csv', 'w') as f:
+        # Try to do pandas dataframe to csv?
 
         if SAVE_MODEL and not argum.only_test:
 
