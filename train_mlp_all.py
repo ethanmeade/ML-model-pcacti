@@ -41,7 +41,7 @@ while settings_file.__next__()!="Setup\n":
     pass
 
 BATCH_SIZE = 64
-EPOCHS = 150#2
+EPOCHS = 300#150
 LEARNING_RATE = 1e-4
 SAVE_MODEL = True
 
@@ -59,7 +59,8 @@ if len(tmp) == 3:
     config_split_method, config_split_argument2, config_split_argument3 = tmp
 else:
     config_split_method, config_split_argument2 = tmp
-config_output_idx = output_names.index(parse_next_config(settings_file, "Output Select")[0])
+output_name = parse_next_config(settings_file, "Output Select")[0]
+config_output_idx = output_names.index(output_name)
 # print(config_output_idx)
 config_method = parse_next_config(settings_file, "Method")[0]
 config_paramsearch = parse_next_config(settings_file, "Param Search")[0]
@@ -111,8 +112,18 @@ def get_out_dir_sub():
         elif regression_mode == 'Four':
             result += "/First4"
         else:
+            if "power" in output_name:
+                result += "/Power"
+            elif "read" in output_name:
+                result += "/Read"
+            elif "write" in output_name:
+                result += "/Write"
+            elif "Access" in output_name:
+                result += "/Access"
+            else:
+                result += "/Cycle"
             # Band-aid fix
-            result += "/Power"
+            #result += "/{output_name}"
         return result
     else:
         raise ValueError(f"Unsupported train-test split method: {config_split_method}; check settings.cfg!")
@@ -238,6 +249,9 @@ def load_model_checkpoint(filepath_in, torch_device, network_in, optimizer_in):
     optimizer_in.load_state_dict(checkpoint['optimizer_state_dict'])
     starting_epoch = checkpoint['epoch']
     loss_stats = checkpoint['loss']
+    # It probably makes more sense to just use number
+    # of recorded loss increments as number of epochs, huh?
+    # starting_epoch = len(loss_stats['total']['train'])
     return checkpoint, starting_epoch, loss_stats
 
 def train_model_all(cnet, loss_stats, starting_epoch, batch_size, EPOCHS, train_loader, val_loader):
@@ -282,27 +296,27 @@ def train_model_all(cnet, loss_stats, starting_epoch, batch_size, EPOCHS, train_
                 train_epoch_loss_write += train_l_write.item()
                 train_epoch_loss_power += train_l_power.item()
 
-                # VALIDATION
-                with torch.no_grad():   
-                    val_epoch_loss_total = 0
-                    val_epoch_loss_access = 0
-                    val_epoch_loss_cycle = 0
-                    val_epoch_loss_read = 0
-                    val_epoch_loss_write = 0
-                    val_epoch_loss_power = 0
+            # VALIDATION
+            with torch.no_grad():   
+                val_epoch_loss_total = 0
+                val_epoch_loss_access = 0
+                val_epoch_loss_cycle = 0
+                val_epoch_loss_read = 0
+                val_epoch_loss_write = 0
+                val_epoch_loss_power = 0
 
-                    cnet.eval()
-                    for X_val_batch, y_val_batch in val_loader:
-                        X_val_batch, y_val_batch = X_val_batch.to(device), y_val_batch.to(device)
+                cnet.eval()
+                for X_val_batch, y_val_batch in val_loader:
+                    X_val_batch, y_val_batch = X_val_batch.to(device), y_val_batch.to(device)
 
-                        y_val_pred = cnet(X_val_batch)
-                            
-                        # val_loss = loss_function(y_val_pred, y_val_batch.unsqueeze(1))
-                        # Just staring at the validation loss raws to make sure it's low like promised...
-                        # print(f"Predicted validation: \n{y_val_pred[0]}")
-                        # print(f"Actual validation val: \n{y_val_batch[0]}")
-                        val_loss_struct = compute_multioutput_loss_all(y_val_pred, y_val_batch, loss_function)
-                        val_loss, val_l_access, val_l_cycle, val_l_read, val_l_write, val_l_power = val_loss_struct
+                    y_val_pred = cnet(X_val_batch)
+                        
+                    # val_loss = loss_function(y_val_pred, y_val_batch.unsqueeze(1))
+                    # Just staring at the validation loss raws to make sure it's low like promised...
+                    # print(f"Predicted validation: \n{y_val_pred[0]}")
+                    # print(f"Actual validation val: \n{y_val_batch[0]}")
+                    val_loss_struct = compute_multioutput_loss_all(y_val_pred, y_val_batch, loss_function)
+                    val_loss, val_l_access, val_l_cycle, val_l_read, val_l_write, val_l_power = val_loss_struct
                 
                 val_epoch_loss_total += val_loss.item()
                 val_epoch_loss_access += val_l_access.item()
@@ -569,7 +583,7 @@ if __name__ == "__main__":
     t_node_list = []
 
     if argum.instance == '1':
-        t_node_list = [config_split_argument2]
+        t_node_list = [(config_split_argument2, config_split_argument3)]
     else:
         t_node_list = ["0.014", "0.016", "0.022", "0.032", "0.045", "0.065", "0.090"]
     for param2 in tqdm(t_node_list):
@@ -578,7 +592,8 @@ if __name__ == "__main__":
         # TODO: FIX THIS TO BE LESS HARD CODED
         # for param2 in tqdm(["0.032"]):
 
-        config_split_argument2 = param2
+        config_split_argument2 = param2[0]
+        config_split_argument3 = param2[1]
         out_dir_sub = get_out_dir_sub()
         print(f"Currently operating on: {config_split_argument2} {config_split_argument3}")
 
@@ -719,9 +734,9 @@ if __name__ == "__main__":
         if regression_mode == "Single":
             # Another band-aid
             mse_power = mean_squared_error(y_test, y_pred_list)
-            print(f"Mean Squared Error for Power Time (mW): {mse_power}")
+            print(f"Mean Squared Error for {output_name}: {mse_power}")
             r2_power = r2_score(y_test, y_pred_list)
-            print(f"R^2 Score for Leakage Power (mW): {r2_power}")
+            print(f"R^2 Score for {output_name}: {r2_power}")
         else:
             mse_acc = mean_squared_error(y_test[:,0], y_pred_list[:,0])
             print(f"Mean Squared Error for Access Time (ns): {mse_acc}")
