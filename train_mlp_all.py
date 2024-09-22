@@ -32,6 +32,10 @@ def parse_arguments():
     parser.add_argument('--save_charts', action='store_true')
     parser.add_argument('-m', '--mode', default='All', choices=['All', 'Four', 'Single'])
     parser.add_argument('--instance', default='1', choices=['1', '2'])
+    parser.add_argument('-rs', '--random_state', type=int, default=1)
+    parser.add_argument('-bs', '--batch_size', type=int, default=64, help="Batch size of the model we want to train.")
+    parser.add_argument('-e', '--epochs', type=int, default=75, help="Number of epochs to train the model.")
+    parser.add_argument('-tgs', '--targets', type=List[str], default=["Access Time"], nargs="+", help="Which targets to predict on?")
 
     args = parser.parse_args()
     return args
@@ -127,7 +131,6 @@ def get_out_dir_sub():
         return result
     else:
         raise ValueError(f"Unsupported train-test split method: {config_split_method}; check settings.cfg!")
-        return ""
 
 def input_transforms(name:str, value:str) -> Union[float, List[float]]:
     if name == "technology_node":
@@ -144,6 +147,38 @@ def input_transforms(name:str, value:str) -> Union[float, List[float]]:
     if name == "cache_level": # take into account if L2 or L3
         d = {"L2":[1,0], "L3":[0,1]}
         return d[value]
+
+def transform_target_indices(indices: List[str]) -> List[int]:
+    res = []
+    for i in indices:
+        if i == "0" or "access" in i.lower():
+            res.append(0)
+        elif i == "1" or "cycle" in i.lower():
+            res.append(1)
+        elif i == "2" or "read" in i.lower():
+            res.append(2)
+        elif i == "3" or "write" in i.lower():
+            res.append(3)
+        elif i == "4" or "power" in i.lower():
+            res.append(4)
+    return res
+
+def transform_index_to_name(indices: List[int]) -> List[str]:
+    res = []
+    for i in indices:
+        if i == 0:
+            res.append("Access Time")
+        elif i == 1:
+            res.append("Cycle Time")
+        elif i == 2:
+            res.append("Read Energy")
+        elif i == 3:
+            res.append("Write Energy")
+        elif i == 4:
+            res.append("Power")
+        else:
+            raise(IndexError(f"Cannot convert index to column name - Unsupported index: {i}!"))
+    return res
 
 def transform_frames(frames: List[List[str]]) -> Tuple[np.ndarray, np.ndarray]:
     X, Y = list(), list()
@@ -212,6 +247,16 @@ def compute_multioutput_loss_one(y_predict, y_target, loss_func):
     # Just sum up the MSE of all the individual losses...
     return loss_func(y_predict, y_target.unsqueeze(1))
 
+def compute_multioutput_loss(y_predict, y_target, loss_func):
+    # Just sum up the MSE of all the individual losses...
+    num_colus = len(y_predict[0])
+    res = []
+    if num_colus == 1:
+        res = loss_func(y_predict, y_target.unsqueeze(1))
+    for i in range(num_colus):
+        res.append(loss_func(y_predict[:,i], y_target[:,i]))
+    return [sum(res)] + res
+
 def get_artifacts_filepath(use_case, relative_out_path, batch_size, curr_epochs, TOTAL_EPOCHS):
     """
     Takes in use_case (either graph, end, or checkpt) and some other values;
@@ -253,6 +298,86 @@ def load_model_checkpoint(filepath_in, torch_device, network_in, optimizer_in):
     # of recorded loss increments as number of epochs, huh?
     # starting_epoch = len(loss_stats['total']['train'])
     return checkpoint, starting_epoch, loss_stats
+
+def train_model_any(cnet, loss_stats, starting_epoch, batch_size, EPOCHS, train_loader, val_loader, categories):
+    for epoch in tqdm(range(starting_epoch, EPOCHS)):
+            
+            # Print epoch
+            #print(f'Starting epoch {epoch+1}')
+
+            # TRAINING SECTION
+
+            cnet.train()
+            
+            # Set current loss value
+            losses = []
+            if len(categories) == 1: losses = np.array([0.0])
+            else:
+                losses = np.zeros(1+len(categories))
+            
+            # Iterate over the DataLoader for training data
+            # for X_train_batch, y_train_batch in tqdm(train_loader, leave=False):
+            for X_train_batch, y_train_batch in tqdm(train_loader):
+                
+                # Send the training stuff to the device in use
+                X_train_batch, y_train_batch = X_train_batch.to(device), y_train_batch.to(device)
+                optimizer.zero_grad()
+
+                y_train_pred = cnet(X_train_batch)
+
+                # train_loss = loss_function(y_train_pred, y_train_batch.unsqueeze(1))
+                train_loss_struct = compute_multioutput_loss(y_train_pred, y_train_batch, loss_function)
+                # train_loss, train_l_access, train_l_cycle, train_l_read, train_l_write, train_l_power = train_loss_struct
+            
+                train_loss_struct[0].backward()
+                optimizer.step()
+                
+                losses += train_loss_struct
+
+            # VALIDATION
+            with torch.no_grad():   
+                val_losses = []
+                if len(categories) == 1: val_losses = np.array([0.0])
+                else:
+                    val_losses = np.zeros(1+len(categories))
+
+                cnet.eval()
+                for X_val_batch, y_val_batch in val_loader:
+                    X_val_batch, y_val_batch = X_val_batch.to(device), y_val_batch.to(device)
+
+                    y_val_pred = cnet(X_val_batch)
+                        
+                    # val_loss = loss_function(y_val_pred, y_val_batch.unsqueeze(1))
+                    # Just staring at the validation loss raws to make sure it's low like promised...
+                    # print(f"Predicted validation: \n{y_val_pred[0]}")
+                    # print(f"Actual validation val: \n{y_val_batch[0]}")
+                    val_loss_struct = compute_multioutput_loss(y_val_pred, y_val_batch, loss_function)
+                    # val_loss, val_l_access, val_l_cycle, val_l_read, val_l_write, val_l_power = val_loss_struct
+                
+                val_losses += val_losses
+            loss_stats['total']['train'].append(train_epoch_loss_total/len(train_loader))
+            loss_stats['total']['val'].append(val_epoch_loss_total/len(val_loader))
+            loss_stats['access']['train'].append(train_epoch_loss_access/len(train_loader))
+            loss_stats['access']['val'].append(val_epoch_loss_access/len(val_loader))
+            loss_stats['cycle']['train'].append(train_epoch_loss_cycle/len(train_loader))
+            loss_stats['cycle']['val'].append(val_epoch_loss_cycle/len(val_loader))
+            loss_stats['read']['train'].append(train_epoch_loss_read/len(train_loader))
+            loss_stats['read']['val'].append(val_epoch_loss_read/len(val_loader))
+            loss_stats['write']['train'].append(train_epoch_loss_write/len(train_loader))
+            loss_stats['write']['val'].append(val_epoch_loss_write/len(val_loader))
+            loss_stats['power']['train'].append(train_epoch_loss_power/len(train_loader))
+            loss_stats['power']['val'].append(val_epoch_loss_power/len(val_loader))
+
+            print(f'Epoch {epoch+0:03}: | Train Loss: {train_epoch_loss_total/len(train_loader):.5f} | Val Loss: {val_epoch_loss_total/len(val_loader):.5f}')
+
+            if SAVE_MODEL and epoch % 15 == 0 and epoch > 0:
+                torch.save({
+                    'epoch': epoch,
+                    'model_state_dict': cnet.state_dict(),
+                    'optimizer_state_dict': optimizer.state_dict(),
+                    'loss': loss_stats
+                }, get_artifacts_filepath('checkpt', out_dir_sub, batch_size, epoch, EPOCHS)
+                )
 
 def train_model_all(cnet, loss_stats, starting_epoch, batch_size, EPOCHS, train_loader, val_loader):
     for epoch in tqdm(range(starting_epoch, EPOCHS)):
@@ -566,12 +691,15 @@ def generate_graphs_one(loss_stats, out_dir_sub, BATCH_SIZE, EPOCHS):
 if __name__ == "__main__":
     argum = parse_arguments()
     regression_mode = argum.mode
+    BATCH_SIZE = argum.batch_size
+    EPOCHS = argum.epochs
     if SAVE_MODEL:
         out_dir_sub = get_out_dir_sub()
     # preprocess data
     frames = get_dataframes()
     X, Y = transform_frames(frames)
     y = Y
+    print(f"y's type: {type(y)}\ny's first 10 rows: {y[:10]}")
     if regression_mode == "Four":
         # Include all EXCEPT for power leakage. Can calculate that on it's own.
         y = Y[:,0:-1]
