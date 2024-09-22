@@ -41,7 +41,7 @@ while settings_file.__next__()!="Setup\n":
     pass
 
 BATCH_SIZE = 64
-EPOCHS = 300#150
+EPOCHS = 900#150
 LEARNING_RATE = 1e-4
 SAVE_MODEL = True
 
@@ -255,7 +255,7 @@ def load_model_checkpoint(filepath_in, torch_device, network_in, optimizer_in):
     return checkpoint, starting_epoch, loss_stats
 
 def train_model_all(cnet, loss_stats, starting_epoch, batch_size, EPOCHS, train_loader, val_loader):
-    for epoch in tqdm(range(starting_epoch, EPOCHS)):
+    for epoch in tqdm(range(starting_epoch, EPOCHS), position=0, leave=True):
             
             # Print epoch
             #print(f'Starting epoch {epoch+1}')
@@ -274,7 +274,8 @@ def train_model_all(cnet, loss_stats, starting_epoch, batch_size, EPOCHS, train_
             
             # Iterate over the DataLoader for training data
             # for X_train_batch, y_train_batch in tqdm(train_loader, leave=False):
-            for X_train_batch, y_train_batch in tqdm(train_loader):
+            # for X_train_batch, y_train_batch in tqdm(train_loader, position=0, leave=True):
+            for X_train_batch, y_train_batch in train_loader:
                 
                 # Send the training stuff to the device in use
                 X_train_batch, y_train_batch = X_train_batch.to(device), y_train_batch.to(device)
@@ -587,8 +588,6 @@ if __name__ == "__main__":
     else:
         t_node_list = ["0.014", "0.016", "0.022", "0.032", "0.045", "0.065", "0.090"]
     for param2 in tqdm(t_node_list):
-    # for param2 in tqdm(["0.045", "0.065", "0.090"]):
-    # for param2 in tqdm(["0.045", "0.065"]):
         # TODO: FIX THIS TO BE LESS HARD CODED
         # for param2 in tqdm(["0.032"]):
 
