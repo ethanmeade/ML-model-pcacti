@@ -1,27 +1,30 @@
 import pandas as pd
+from dataset_handler import DatasetHandler
+import numpy as np
 
-df = pd.read_csv("data.csv", header=0)
+targets = ['Access time (ns)', 'Cycle time (ns)',
+         'Total dynamic read energy per access (nJ)', 'Total dynamic write energy per access (nJ)', 'Total leakage power of a bank (mW)']
 
-# Access mode needs to be one-hot-encoded, meaning that the dataframe needs to be transformed.
-features = ['technology_node','cache_size','cache_level_L2','cache_level_L3','associativity','ports.exclusive_read_port','ports.exclusive_write_port','uca_bank_count',
-            'access_mode_fast', 'access_mode_normal', 'access_mode_sequential']
-target = ['Access time (ns)']
-df = pd.get_dummies(df, columns=['access_mode', 'cache_level'], dtype=int)
-df = df[['technology_node','cache_size','cache_level_L2','cache_level_L3','associativity','ports.exclusive_read_port','ports.exclusive_write_port','uca_bank_count', 
-         'access_mode_fast', 'access_mode_normal', 'access_mode_sequential', 'Access time (ns)', 'Cycle time (ns)',
-         'Total dynamic read energy per access (nJ)', 'Total dynamic write energy per access (nJ)', 'Total leakage power of a bank (mW)', 'elapsed_time (s)']]
+dataset = DatasetHandler()
+X_train, X_test, y_train, y_test = dataset.make_training_data(targets, 42, False)
 
-X = df[features].values
-y = df[target].values
+# Actually apply the PCA
+from sklearn.decomposition import PCA
 
-# Split the X and y set into training and testing sets
-from sklearn.model_selection import train_test_split
+pca = PCA(n_components=5)
+X_train_pca = pca.fit_transform(X_train)
+X_test_pca = pca.transform(X_test)
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Let's check what the explained variance is...
+# Access explained variance
+explained_variance = pca.explained_variance_ratio_
+print(explained_variance)
 
-# preprocess the data
-from sklearn.preprocessing import StandardScaler
-sc = StandardScaler()
+import matplotlib.pyplot as plt
 
-X_train = sc.fit_transform(X_train)
-X_test = sc.transform(X_test)
+# Plot cumulative explained variance
+plt.plot(np.cumsum(explained_variance))
+plt.xlabel('Number of Components')
+plt.ylabel('Cumulative Explained Variance')
+plt.show()
+
